@@ -3,3 +3,9 @@
 
 # ignore poetry files
 *.toml
+
+#ignore test file
+source_code*
+
+__pycache__/
+.vscode/

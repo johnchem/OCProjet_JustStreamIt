@@ -1,0 +1,47 @@
+nav {
+    border: 1px black solid;
+    display: flex;
+    border-spacing: 5px;
+    list-style-type: none;
+}
+
+nav li {
+    padding: 10px;
+    border: 0.5px red dashed;
+}
+
+#bestMovie {
+    border: 1px black solid;
+}
+
+.carousel-items {
+    display: flex;
+    overflow-x: scroll;
+    padding: 1rem 0;
+}
+
+.carousel-item {
+    flex: 1 0 450px;
+    margin-left: 1rem;
+    scroll-snap-align: start;
+}
+
+div[class=card] img {
+    min-height: 20vh;
+    min-width: 20vw;
+    border: 5px green solid;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar {
+    height: 6px;
+    background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #3d4852;
+    border-radius: 3px;
+}
