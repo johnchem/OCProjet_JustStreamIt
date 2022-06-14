@@ -18,37 +18,75 @@ nav li {
     border: 0.5px red dashed;
 }
 
+/* play button */
+
+.play_button {
+    background-color: lightgray;
+    border-radius: 5px;
+    margin-left: 20px;
+    text-align: center;
+    text-justify: left;
+    font-size: 1em;
+    box-shadow: 0 5px black;
+}
+
+.play_button:hover {
+    background-color: grey;
+}
+
+.play_button:active {
+    transform: translateY(4px);
+    box-shadow: 0 5px white;
+}
+
+.play_button>img {
+    width: 50px;
+    height: 50px;
+    align-self: left;
+}
+
 /* top rated movie */
 
 #bestMovie {
-    border: 1px black solid;
+    border: 1px red solid;
     display: grid;
-    grid-template: "title title title" 1fr 1fr 1fr "picture play empty" 1fr 1fr 1fr "picture descrip descrip" 1fr 1fr 1fr;
+    grid-template-columns: repeat(3, auto);
+    grid-template-rows: repeat(3, auto);
+    align-items: center;
+    justify-items: center;
+    max-width: 1000px;
+    max-height: 400px;
 }
 
 #bestMovie>.title {
-    grid-column: 1/3;
-    grid-area: title;
-
+    grid-column: 1/4;
+    grid-row: 1;
+    background: red;
+    align-self: start;
+    justify-self: left;
+    padding-bottom: -10px;
 }
 
 #bestMovie>.picture {
+    grid-column: 1;
+    grid-row: 2/4;
     padding: 0.2em;
-    grid-area: picture;
+    background: blue;
 }
 
 #bestMovie>.play {
-    position: absolute;
-    right: 0px;
-    grid-area: play;
+    background-color: white;
+    grid-column: 2;
+    grid-row: 2;
+    align-items: right;
 }
 
 #bestMovie>.long_description {
     padding: 0.2em;
-    grid-area: descrip;
+    grid-column: 2/4;
+    grid-row: 3;
+    background: purple;
 }
-
-
 
 /* carousel mng */
 
@@ -66,6 +104,14 @@ nav li {
     flex: 1 0 20vw;
     margin-left: 1em;
     scroll-snap-align: start;
+}
+
+.go_right {
+    float: right;
+}
+
+.got_left {
+    float: left;
 }
 
 /* carousel item element */
@@ -100,6 +146,7 @@ div[class=card] img {
 
 /* carousel scrollbar */
 
+/*
 ::-webkit-scrollbar-track {
     background-color: #F5F5F5;
 }
@@ -113,6 +160,7 @@ div[class=card] img {
     background-color: #3d4852;
     border-radius: 3px;
 }
+*/
 
 /* popup mng */
 
