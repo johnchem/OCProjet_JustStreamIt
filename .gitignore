@@ -6,7 +6,7 @@
 
 #ignore test file
 source_code*
-/picture
+picture/
 
 __pycache__/
 .vscode/
