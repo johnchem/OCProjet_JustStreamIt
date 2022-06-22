@@ -4,18 +4,35 @@ html {
     background-color: white;
 }
 
+main {
+    display: flex;
+    justify-content: center;
+}
+
 /* navigation menu */
 nav {
     border: 1px black solid;
     display: flex;
     border-spacing: 5px;
     list-style-type: none;
-    vertical-align: middle;
+    flex-direction: row;
+    align-items: center;
 }
 
 nav li {
-    padding: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
     border: 0.5px red dashed;
+}
+
+nav .title {
+    margin-right: auto;
+    padding: 0px;
+}
+
+nav a {
+    text-align: center;
+    flex-direction: row-reverse;
 }
 
 /* play button */
@@ -24,10 +41,10 @@ nav li {
     background-color: lightgray;
     border-radius: 5px;
     margin-left: 20px;
-    text-align: center;
-    text-justify: left;
-    font-size: 1em;
     box-shadow: 0 5px black;
+    vertical-align: middle;
+    text-align: left;
+    font-size: 1em;
 }
 
 .play_button:hover {
@@ -40,22 +57,28 @@ nav li {
 }
 
 .play_button>img {
+    display: inline-block;
+    vertical-align: middle;
+    align-self: left;
     width: 50px;
     height: 50px;
-    align-self: left;
 }
 
 /* top rated movie */
 
 #bestMovie {
     border: 1px red solid;
+    max-width: 1000px;
+    max-height: 400px;
+    position: relative;
+
+
+
     display: grid;
     grid-template-columns: repeat(3, auto);
     grid-template-rows: repeat(3, auto);
     align-items: center;
     justify-items: center;
-    max-width: 1000px;
-    max-height: 400px;
 }
 
 #bestMovie>.title {
