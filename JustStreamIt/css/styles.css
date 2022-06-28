@@ -5,8 +5,7 @@ html {
 }
 
 main {
-    display: flex;
-    justify-content: center;
+    display: block;
 }
 
 /* navigation menu */
@@ -68,11 +67,10 @@ nav a {
 
 #bestMovie {
     border: 1px red solid;
+    margin: auto;
     max-width: 1000px;
     max-height: 400px;
     position: relative;
-
-
 
     display: grid;
     grid-template-columns: repeat(3, auto);
@@ -101,7 +99,7 @@ nav a {
     background-color: white;
     grid-column: 2;
     grid-row: 2;
-    align-items: right;
+    align-self: right;
 }
 
 #bestMovie>.long_description {
@@ -109,6 +107,7 @@ nav a {
     grid-column: 2/4;
     grid-row: 3;
     background: purple;
+    align-self: last baseline;
 }
 
 /* carousel mng */
@@ -117,6 +116,7 @@ nav a {
     display: flex;
     overflow-x: scroll;
     padding: 1rem 0;
+    align-items: center;
 }
 
 .categorie_title {
@@ -167,24 +167,6 @@ div[class=card] img {
     border: 5px green solid;
 }
 
-/* carousel scrollbar */
-
-/*
-::-webkit-scrollbar-track {
-    background-color: #F5F5F5;
-}
-
-::-webkit-scrollbar {
-    height: 6px;
-    background-color: #F5F5F5;
-}
-
-::-webkit-scrollbar-thumb {
-    background-color: #3d4852;
-    border-radius: 3px;
-}
-*/
-
 /* popup mng */
 
 .modal {
@@ -192,8 +174,40 @@ div[class=card] img {
 }
 
 .modal>table {
-    display: inline-block;
+    display: fixed;
+    top: 50%;
+    bottom: 50%;
+    transform: translate(50%, 50%);
     zoom: 1;
     vertical-align: top;
     font-size: 1.5em;
 }
+
+/*
+.d2 {
+    width: 400%;
+    height: 0%;
+    padding-top: 75%;
+    background-color: #ededed;
+    background-image: url("diapo123.png");
+    background-size: contain;
+    animation: defilement2 12s linear infinite;
+}
+
+.conteneur2 {
+    max-width: 960px;
+    overflow: hidden;
+    margin: 50px auto;
+    box-shadow: 0px 0px 10px #777;
+}
+
+@keyframes defilement2 {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    100% {
+        transform: translate(-75%, 0);
+    }
+}
+*/

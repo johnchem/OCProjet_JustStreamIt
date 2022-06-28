@@ -17,6 +17,7 @@
     <header> </header>
 
     <main>
+        <!-- barre de navigation -->
         <nav id="nav-bar">
             <li class="title">
                 <h1 href=#>JustStreamIt</h1>
@@ -25,8 +26,9 @@
             <li class="nav-item"><a href=#>Categories</a></li>
         </nav>
 
+        <!-- affichage du meilleur film -->
         <section id="bestMovie">
-            <h2 class="title">le Meilleur film</h2>
+            <h2 class="title">le Meilleur Acteurs</h2>
             <div class="picture">
                 <img src="https://m.media-amazon.com/images/M/MV5BNjA5Y2ZhYzctNDc1Yy00OGViLWI3NGUtOTYwZmE3NDFiYmIxXkEyXkFqcGdeQXVyNTIzOTk5ODM@._V1_UY268_CR72,0,182,268_AL_.jpg"
                     alt="">
@@ -46,20 +48,19 @@
             </div>
         </section>
 
-        <section id="bestScoredMovie">
+        <!-- liste des meilleurs films -->
+        <section id="bestScoredMovie" class="carousel-wrapper">
             <div>
                 <a class="categorie_title">Films les mieux notés</a>
             </div>
 
-            <aside class="go_left">
-                <button class="button_go_left"><img src="assets/icons8-double-left-64.png" alt="left"></button>
-            </aside>
-
-            <aside class="go_right">
-                <button class="button_go_right"><img src="assets/icons8-double-right-64.png" alt="right"></button>
-            </aside>
-
             <ul class="carousel">
+                <!-- bouton gauche -->
+                <li class="go_left">
+                    <button class="button_go_left"><img src="assets/icons8-double-left-64.png" alt="left"></button>
+                </li>
+
+                <!-- item 1 -->
                 <li class="carousel-item">
                     <div class="card">
                         <h2 class="card-title">Miss Jerry</h2>
@@ -67,42 +68,36 @@
                             src="https://m.media-amazon.com/images/M/MV5BNjA5Y2ZhYzctNDc1Yy00OGViLWI3NGUtOTYwZmE3NDFiYmIxXkEyXkFqcGdeQXVyNTIzOTk5ODM@._V1_UY268_CR72,0,182,268_AL_.jpg" />
                     </div>
                 </li>
+
+                <!-- item 2 -->
                 <li class="carousel-item">
                     <div class="card">
                         <h2 class="card-title">Film 2</h2>
                         <img src="https://placeimg.com/572/322/animals" />
                     </div>
                 </li>
+
+                <!-- item 3 -->
                 <li class="carousel-item">
                     <div class="card">
                         <h2 class="card-title">Film 3</h2>
                         <img src="https://placeimg.com/572/322/animals" />
                     </div>
                 </li>
+
+                <!-- item 4 -->
                 <li class="carousel-item">
                     <div class="card">
                         <h2 class="card-title">Film 4</h2>
                         <img src="https://placeimg.com/572/322/animals" />
                     </div>
                 </li>
-                <li class="carousel-item">
-                    <div class="card">
-                        <h2 class="card-title">Film 5</h2>
-                        <img src="https://placeimg.com/572/322/animals" />
-                    </div>
-                </li>
-                <li class="carousel-item">
-                    <div class="card">
-                        <h2 class="card-title">Film 6</h2>
-                        <img src="https://placeimg.com/572/322/animals" />
-                    </div>
-                </li>
-                <li class="carousel-item">
-                    <div class="card">
-                        <h2 class="card-title">Film 7</h2>
-                        <img src="https://placeimg.com/572/322/animals" />
-                    </div>
-                </li>
+
+                <!-- bouton droite -->
+                <aside class="go_right">
+                    <button class="button_go_right"><img src="assets/icons8-double-right-64.png" alt="right"></button>
+                </aside>
+
             </ul>
         </section>
 
@@ -383,7 +378,7 @@
         </section>
     </main>
 
-    <script type="text/javascript" src="./js/scripts.js"></script>
+    <script src="./js/scripts.js" type="module"></script>
 </body>
 
 </html>
