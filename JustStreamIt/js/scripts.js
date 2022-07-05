@@ -12,7 +12,7 @@ class Book {
 */
 
 
-var json_data =
+let json_data =
 {
     "tutu": {
         "id": 9,

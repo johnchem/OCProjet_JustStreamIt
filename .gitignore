@@ -1,12 +1,17 @@
 # ignore virtual env
 .venv/
 
+# divers
+.parcel-cache/
+dist/
+
 # ignore poetry files
 *.toml
 
 #ignore test file
 source_code*
 picture/
+
 
 __pycache__/
 .vscode/
