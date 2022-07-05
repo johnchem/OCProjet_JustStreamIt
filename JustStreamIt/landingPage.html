@@ -11,6 +11,7 @@
     <meta name="author" content="Payssan Jonathan">
 
     <link rel="stylesheet" href="css/styles.css">
+    <script src="./js/scripts.js" type="module" async></script>
 </head>
 
 <body>
@@ -48,57 +49,92 @@
             </div>
         </section>
 
+        <!-- test pour le carousel de grafikArt-->
+        <section id="test_carousel" class="carousel__wrapper">
+            <div class="categorie_title"> Test carousel GrafikArt</div>
+
+        </section>
+
         <!-- liste des meilleurs films -->
-        <section id="bestScoredMovie" class="carousel-wrapper">
-            <div>
-                <a class="categorie_title">Films les mieux notés</a>
+        <section id="bestScoredMovie" class="carousel__wrapper">
+            <div class="categorie_title"> Films les mieux notés
             </div>
 
-            <ul class="carousel">
+            <div class="carousel">
                 <!-- bouton gauche -->
-                <li class="go_left">
+                <div class="go_left">
                     <button class="button_go_left"><img src="assets/icons8-double-left-64.png" alt="left"></button>
-                </li>
+                </div>
 
                 <!-- item 1 -->
-                <li class="carousel-item">
-                    <div class="card">
-                        <h2 class="card-title">Miss Jerry</h2>
+                <div class="carousel__item">
+                    <div class="card__img">
                         <img
                             src="https://m.media-amazon.com/images/M/MV5BNjA5Y2ZhYzctNDc1Yy00OGViLWI3NGUtOTYwZmE3NDFiYmIxXkEyXkFqcGdeQXVyNTIzOTk5ODM@._V1_UY268_CR72,0,182,268_AL_.jpg" />
                     </div>
-                </li>
+                    <div class="card__title">Miss Jerry
+                    </div>
+                </div>
 
                 <!-- item 2 -->
-                <li class="carousel-item">
-                    <div class="card">
-                        <h2 class="card-title">Film 2</h2>
-                        <img src="https://placeimg.com/572/322/animals" />
+                <div class="carousel__item">
+                    <div class="card__img">
+                        <img id="test" src="https://placeimg.com/572/322/animals" />
                     </div>
-                </li>
+                    <div class="card__title">zut
+                    </div>
+                </div>
 
                 <!-- item 3 -->
-                <li class="carousel-item">
+                <div class="carousel-item">
                     <div class="card">
                         <h2 class="card-title">Film 3</h2>
                         <img src="https://placeimg.com/572/322/animals" />
                     </div>
-                </li>
+                </div>
+
+                <div class="carousel__item">
+                    <div class="card__img">
+                        <img
+                            src="https://m.media-amazon.com/images/M/MV5BNjA5Y2ZhYzctNDc1Yy00OGViLWI3NGUtOTYwZmE3NDFiYmIxXkEyXkFqcGdeQXVyNTIzOTk5ODM@._V1_UY268_CR72,0,182,268_AL_.jpg" />
+                    </div>
+                    <div class="card__title">Miss Jerry
+                    </div>
+                </div>
 
                 <!-- item 4 -->
-                <li class="carousel-item">
+                <div class="carousel-item">
                     <div class="card">
                         <h2 class="card-title">Film 4</h2>
                         <img src="https://placeimg.com/572/322/animals" />
                     </div>
-                </li>
+                </div>
+
+                <div class="carousel__item">
+                    <div class="card__img">
+                        <img
+                            src="https://m.media-amazon.com/images/M/MV5BNjA5Y2ZhYzctNDc1Yy00OGViLWI3NGUtOTYwZmE3NDFiYmIxXkEyXkFqcGdeQXVyNTIzOTk5ODM@._V1_UY268_CR72,0,182,268_AL_.jpg" />
+                    </div>
+                    <div class="card__title">Miss Jerry
+                    </div>
+                </div>
+
+                <!-- item 5 -->
+                <div class="carousel__item">
+                    <div class="card__img">
+                        <img
+                            src="https://m.media-amazon.com/images/M/MV5BNjA5Y2ZhYzctNDc1Yy00OGViLWI3NGUtOTYwZmE3NDFiYmIxXkEyXkFqcGdeQXVyNTIzOTk5ODM@._V1_UY268_CR72,0,182,268_AL_.jpg" />
+                    </div>
+                    <div class="card__title">Miss Jerry
+                    </div>
+                </div>
 
                 <!-- bouton droite -->
                 <aside class="go_right">
                     <button class="button_go_right"><img src="assets/icons8-double-right-64.png" alt="right"></button>
                 </aside>
 
-            </ul>
+            </div>
         </section>
 
         <!--
@@ -377,8 +413,6 @@
             </div>
         </section>
     </main>
-
-    <script src="./js/scripts.js" type="module"></script>
 </body>
 
 </html>

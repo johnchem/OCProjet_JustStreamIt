@@ -1,56 +1,205 @@
-/* let var1 = 42;
-const salutation = "C'est le ${var1} hello world !";
-console.log(salutation);
 
-class Book {
-    constructor(title, author, pages) {
-        this.title = title;
-        this.author = author;
-        this.pages = pages;
-    }
-}
-*/
+class Carousel {
+    /* Structure et element construit à partir du tutoriel de grafikart
+    https://grafikart.fr/tutoriels/carrousel-javascript-87
+    */
 
+    /**
+     * this callback type is called 'requestCallBack' and is displayed as a global symbol.
+     * 
+     * @callback moveCallBack
+     * @param {number} index
+     */
 
-var json_data =
-{
-    "tutu": {
-        "id": 9,
-        "url": "http://127.0.0.1:8000/api/v1/titles/9",
-        "title": "Miss Jerry"
-    },
-    "toto": {
-        "id": 574,
-        "url": "http://127.0.0.1:8000/api/v1/titles/574",
-        "title": "The Story of the Kelly Gang"
-    }
-};
+    /**
+     * @param {HTMLElement} element
+     * @param {Object} elementsToDisplay liste des données mettre dans le carousel 
+     * @param {Object} options
+     * @param {Object} [options.slidesToScroll=1] Nombre d'élément à faire défiler
+     * @param {Object} [option.slidesVisible=1] Nombre d'élements visible dans un slide
+     * @param {Boolean} [options.loop=false] doit-on boucler à la fin 
+     */
+    constructor(element, elementsToDisplay, options = {}) {
+        this.element = element
+        elementsToDisplay.then(this.elementsToDisplay = elementsToDisplay)
+        this.options = Object.assign({}, {
+            slidesToScroll: 1,
+            slidesVisible: 1,
+            loop: false
+        }, options)
 
-/*
-var json_file = '{
-"id": 9,
-    "url": "http://127.0.0.1:8000/api/v1/titles/9",
-        "title": "Miss Jerry"}';
-*/
-var data = JSON.parse(json_data);
-
-console.log(data.tutu);
-
-/*
-const data = (function () {
-    const json = null;
-    $.ajax({
-        'async': false,
-        'global': false,
-        'url': "../mock_data.json",
-        'dataType': "json",
-        'success': function (data) {
-            json = data;
+        // récupération des éléments du carousel
+        let children = []
+        for (obj in elementsToDisplay) {
+            children.append(carouselItem(obj.title, obj.url_image))
         }
-    });
-    return json
-})();
-*/
+        console.log(children)
 
-let myHeading = document.querySelector('h1');
-myHeading.textContent = 'JustStreamIt';
+        //creation du div pour le carousel et le container
+        let ratio = this.children.length / this.options.slidesVisible
+        this.currentItem = 0
+        this.root = this.createDivWithClass('carousel')
+
+        // creation d'un container pour les elements visible
+        this.container = this.createDivWithClass('carousel__container')
+        container.style.width(ratio * 100) + "%" // largeur du container pour les éléments visible
+
+        // modification du HTML de la page
+        this.root.appendChild(this.container)
+        this.element.appendchild(this.root)
+        this.moveCallBacks = []
+        this.items = children.map((child) => {
+            let item = this.createDivWithClass('carousel__item')
+            item.appendChild(child)
+            this.container.appendChild(item)
+            return item
+        })
+        this.setStyle()
+        this.createNavigation()
+        this.moveCallBacks.forEach(cb => cb(0))
+    }
+
+    /**
+         * @param {string} title
+         * @param {string} url_image url pour la mignature de image
+         * @returns {HTMLElement}
+         */
+
+    carouselItem(title, url_image) {
+        this.title = title
+        this.url_image = url_image
+        // cree un container pour un item du carousel
+        this.container = this.createDivWithClass("item")
+
+        // cree la partie de l'image pour l'image
+        let pictureContainer = this.createDivWithClass("card__img")
+        let img = document.createElement('img')
+        img.setAttribute('src', this.url_image)
+        pictureContainer.appendChild(img)
+        this.container.appendChild(pictureContainer)
+
+        // cree la partie pour le titre
+        let titleElement = this.createDivWithClass("card__title")
+        titleElement.innerHTML = this.title
+        this.container.appendChild(title)
+
+        return this.container
+    }
+
+    setStyle() {
+        let ratio = this.item.length / this.options.slidesVisible
+        this.container.style.width = (ratio * 100) + "%"
+        this.item.forEach(item => item.style.width = ((100 / this.options.slidesVisible) / ratio) + "%")
+    }
+
+    /**
+     * applique les bonnes dimensions aux éléments
+     */
+    createNavigation() {
+        let nextButton = createDivWithClass(carousel__next)
+        let prevButton = createDivWithClass(carousel__prev)
+
+        this.root.appendChild(nextButton)
+        this.root.appendChild(prevButton)
+
+        nextButton.addEventListener('click', this.next.bind(this))
+        prevButton.addEventListener('click', this.prev.bind(this))
+        if (this.options.loop === true) {
+            return
+        }
+        this.onMove(index => {
+            if (index === 0) {
+                prevButton.classList.add('carousel__prev--hidden')
+            } else {
+                prevButton.classList.remove('carousel__prev--hidden')
+            }
+            if (this.items[this.currentItem + this.options.slidesVisible] === undefined) {
+                nextButton.classList.add('carousel__next--hidden')
+            } else {
+                nextButton.classList.remove('carousel__next--hidden')
+            }
+
+        })
+    }
+
+    next() {
+        this.goToItem(this.currentItem + this.options.slidesToScroll)
+    }
+
+    prev() {
+        this.goToItem(this.currentItem - this.options.slidesToScroll)
+    }
+
+    /**
+     * déplace le carousel vers l'élément ciblé
+     * @Param {number} index
+     */
+    goToItem(index) {
+        if (index < 0) {
+            index = this.items.length - this.options.slidesVisible
+        } else if (index >= this.items.length || (this.items[this.currentItem + this.options.slidesVisible] === undefined && index > this.currentItem)) {
+            index = 0
+        }
+        let translateX = -(100 / this.items.length) * index
+        this.container.style.transform = 'translate3d(' + translateX + '%, 0, 0)'
+        this.currentItem = index
+        this.moveCallBacks.forEach(cb => cb(index))
+    }
+
+    /**
+     * @param {moveCallBack} cb
+     */
+    onMove(cb) {
+        this.moveCallBacks.push(cb)
+    }
+
+}
+
+/**
+* @param {string} className
+* @returns {HTMLElement} 
+*/
+function createDivWithClass(className) {
+    let div = document.createElement('div')
+    div.setAttribute('class', className)
+    return div
+}
+
+function initCarousel() {
+    console.log("start carousel")
+    new Carousel(document.querySelector("#test_carousel"),
+        data,
+        {
+            slidesToScroll: 1,
+            slidesVisible: 3
+        })
+}
+
+const json_data = '{"tutu": {"id": 9,"url": "http://127.0.0.1:8000/api/v1/titles/9","title": "Miss Jerry"}}'
+var obj = JSON.parse(json_data)
+console.log(obj.tutu)
+
+async function fetchMochData() {
+    let response = await fetch("./mock_data.json")
+    let data = await response.json()
+    console.log(data[2].image_url)
+    return data
+}
+
+let data = fetchMochData();
+
+var pictureHolder = document.getElementById("test")
+pictureHolder.src = "https://m.media-amazon.com/images/M/MV5BNTY4ZDk5MzYtNjk2Zi00ZWY3LTgwZjUtNDc5MWEzMWFlOTQzXkEyXkFqcGdeQXVyNjU1MTEwMjI@._V1_UY268_CR1,0,182,268_AL_.jpg"
+
+let myHeading = document.querySelector('h1')
+myHeading.textContent = 'JustStreamIt'
+
+if (document.readyState !== 'loading') {
+    console.log("doc chargé")
+    initCarousel()
+} else {
+    document.addEventListener("DOMContentLoaded", function () {
+        console.log("start carousel")
+        initCarousel()
+    })
+}

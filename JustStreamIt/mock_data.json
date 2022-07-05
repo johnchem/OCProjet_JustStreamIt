@@ -1,0 +1,560 @@
+{
+    "1": {
+        "id": 9,
+        "url": "http://127.0.0.1:8000/api/v1/titles/9",
+        "title": "Miss Jerry",
+        "original_title": "Miss Jerry",
+        "year": 1894,
+        "date_published": "1894-10-09",
+        "duration": 45,
+        "description": "The adventures of a female reporter in the 1890s.",
+        "long_description": "Geraldine (Jerry) Holbrook, a girl of Eastern birth, decides to start a career in journalism in the heart of New York, after she feels that her father is close to a financial crush. In the process she falls in love with the editor of her paper, Mr. Hamilton. After the first successful article, she leads Hamilton into doubting her love for him, and this makes him accept a job in London. But his worries prove wrong when Jerry accepts to marry him and leave to London.",
+        "avg_vote": "5.9",
+        "imdb_score": "6.0",
+        "votes": 154,
+        "metascore": null,
+        "budget": null,
+        "budget_currency": null,
+        "usa_gross_income": null,
+        "worldwide_gross_income": null,
+        "reviews_from_users": 1,
+        "reviews_from_critics": 2,
+        "image_url": "https://m.media-amazon.com/images/M/MV5BNjA5Y2ZhYzctNDc1Yy00OGViLWI3NGUtOTYwZmE3NDFiYmIxXkEyXkFqcGdeQXVyNTIzOTk5ODM@._V1_UY268_CR72,0,182,268_AL_.jpg",
+        "actors": [
+            "Blanche Bayliss",
+            "Chauncey Depew",
+            "William Courtenay"
+        ],
+        "directors": [
+            "Alexander Black"
+        ],
+        "writers": [
+            "Alexander Black"
+        ],
+        "genres": [
+            "Romance"
+        ],
+        "countries": [
+            "USA"
+        ],
+        "languages": [
+            "None"
+        ],
+        "rated": "Not rated or unkown rating",
+        "company": "Alexander Black Photoplays"
+    },
+    "2": {
+        "id": 574,
+        "url": "http://127.0.0.1:8000/api/v1/titles/574",
+        "title": "The Story of the Kelly Gang",
+        "original_title": "The Story of the Kelly Gang",
+        "year": 1906,
+        "date_published": "1906-12-26",
+        "duration": 70,
+        "description": "True story of notorious Australian outlaw Ned Kelly (1855-80).",
+        "long_description": "True story of notorious Australian outlaw Ned Kelly (1855-80).",
+        "avg_vote": "6.1",
+        "imdb_score": "6.1",
+        "votes": 605,
+        "metascore": null,
+        "budget": 2250,
+        "budget_currency": "USD",
+        "usa_gross_income": null,
+        "worldwide_gross_income": null,
+        "reviews_from_users": 7,
+        "reviews_from_critics": 7,
+        "image_url": "https://m.media-amazon.com/images/M/MV5BNTY4ZDk5MzYtNjk2Zi00ZWY3LTgwZjUtNDc5MWEzMWFlOTQzXkEyXkFqcGdeQXVyNjU1MTEwMjI@._V1_UY268_CR1,0,182,268_AL_.jpg",
+        "actors": [
+            "Bella Cola",
+            "Elizabeth Tait",
+            "Frank Mills",
+            "Jack Ennis",
+            "John Forde",
+            "John Tait",
+            "Mr. Marshall",
+            "Mr. McKenzie",
+            "Norman Campbell",
+            "Ollie Wilson",
+            "Sam Crewes",
+            "Vera Linden",
+            "Will Coyne"
+        ],
+        "directors": [
+            "Charles Tait"
+        ],
+        "writers": [
+            "Charles Tait"
+        ],
+        "genres": [
+            "Biography",
+            "Crime",
+            "Drama"
+        ],
+        "countries": [
+            "Australia"
+        ],
+        "languages": [
+            "None"
+        ],
+        "rated": "Not rated or unkown rating",
+        "company": "J. and N. Tait"
+    },
+    "3": {
+        "id": 1892,
+        "url": "http://127.0.0.1:8000/api/v1/titles/1892",
+        "title": "Den sorte drøm",
+        "original_title": "Den sorte drøm",
+        "year": 1911,
+        "date_published": "1911-08-19",
+        "duration": 53,
+        "description": "Two men of high rank are both wooing the beautiful and famous equestrian acrobat Stella. While Stella ignores the jeweler Hirsch, she accepts Count von Waldberg's offer to follow her home, ...",
+        "long_description": "Two men of high rank are both wooing the beautiful and famous equestrian acrobat Stella. While Stella ignores the jeweler Hirsch, she accepts Count von Waldberg's offer to follow her home, where she falls in his arms. At her party some days later Hirsch turns up uninvited. He says he wants to give Stella a piece of jewelry, but she repulses his advances. When Waldberg sees this he knocks Hirsch down. Hirsch challenges him to a duel by cards. Waldberg loses all his money, and in the end also has to sign a promissory note on 85.000, which should be paid within 24 hours. To help Waldberg solve his debt Stella goes to Hirsch to receive the brooch he has promised her. While he turns away, she steals a precious necklace from him, but he happens to see the theft in a mirror. He tails her to a park, where he sees Stella giving the necklace to Waldberg. Hirsch tells Stella to come to him at midnight, if she wants him to be silent about the theft. When Waldberg finds out that Stella is going to...",
+        "avg_vote": "5.8",
+        "imdb_score": "5.8",
+        "votes": 190,
+        "metascore": null,
+        "budget": null,
+        "budget_currency": null,
+        "usa_gross_income": null,
+        "worldwide_gross_income": null,
+        "reviews_from_users": 5,
+        "reviews_from_critics": 2,
+        "image_url": "https://m.media-amazon.com/images/M/MV5BNWVkNjUyYjUtZGU1Yi00YTM4LTg5ZGEtYmNlNDAzNWRjODM2XkEyXkFqcGdeQXVyMzE0MjY5ODA@._V1_UY268_CR7,0,182,268_AL_.jpg",
+        "actors": [
+            "Asta Nielsen",
+            "Emil Albes",
+            "Gunnar Helsengreen",
+            "Hugo Flink",
+            "Mary Hagen",
+            "Valdemar Psilander"
+        ],
+        "directors": [
+            "Urban Gad"
+        ],
+        "writers": [
+            "Gebhard Schätzler-Perasini",
+            "Urban Gad"
+        ],
+        "genres": [
+            "Drama"
+        ],
+        "countries": [
+            "Denmark",
+            "Germany"
+        ],
+        "languages": [
+            "Unknown"
+        ],
+        "rated": "Not rated or unkown rating",
+        "company": "Fotorama"
+    },
+    "4": {
+        "id": 2101,
+        "url": "http://127.0.0.1:8000/api/v1/titles/2101",
+        "imdb_url": "https://www.imdb.com/title/tt0002101/",
+        "title": "Cleopatra",
+        "year": 1912,
+        "imdb_score": "5.1",
+        "votes": 454,
+        "image_url": "https://m.media-amazon.com/images/M/MV5BZTcyMGU4ZmYtYTVmYS00NWFkLWExM2MtYWRlYTlhOWYxNjYwXkEyXkFqcGdeQXVyMzE0MjY5ODA@._V1_UY268_CR7,0,182,268_AL_.jpg",
+        "directors": [
+            "Charles L. Gaskill"
+        ],
+        "actors": [
+            "Charles Sindelar",
+            "Harry Knowles",
+            "Helen Gardner",
+            "Helene Costello",
+            "James R. Waite",
+            "Miss Fielding",
+            "Miss Robson",
+            "Mr. Brady",
+            "Mr. Corker",
+            "Mr. Howard",
+            "Mr. Osborne",
+            "Mr. Paul",
+            "Pearl Sindelar"
+        ],
+        "writers": [
+            "Victorien Sardou"
+        ],
+        "genres": [
+            "Drama",
+            "History"
+        ]
+    },
+    "5": {
+        "id": 2130,
+        "url": "http://127.0.0.1:8000/api/v1/titles/2130",
+        "imdb_url": "https://www.imdb.com/title/tt0002130/",
+        "title": "L'Inferno",
+        "year": 1911,
+        "imdb_score": "7.1",
+        "votes": 2308,
+        "image_url": "https://m.media-amazon.com/images/M/MV5BNjU1NDMyNGEtODJkYy00M2Y4LTk5YzItYTYxMzkzZWI1MmJiXkEyXkFqcGdeQXVyMzI5NDcxNzI@._V1_UY268_CR5,0,182,268_AL_.jpg",
+        "directors": [
+            "Adolfo Padovan",
+            "Francesco Bertolini"
+        ],
+        "actors": [
+            "Arturo Pirovano",
+            "Attilio Motta",
+            "Augusto Milla",
+            "Emilise Beretta",
+            "Giuseppe de Liguoro",
+            "Pier Delle Vigne",
+            "Salvatore Papa"
+        ],
+        "writers": [
+            "Dante Alighieri"
+        ],
+        "genres": [
+            "Adventure",
+            "Drama",
+            "Fantasy"
+        ]
+    },
+    "6": {
+        "id": 2199,
+        "url": "http://127.0.0.1:8000/api/v1/titles/2199",
+        "imdb_url": "https://www.imdb.com/title/tt0002199/",
+        "title": "From the Manger to the Cross; or, Jesus of Nazareth",
+        "year": 1912,
+        "imdb_score": "5.7",
+        "votes": 493,
+        "image_url": "https://m.media-amazon.com/images/M/MV5BZTQ3MDdkMWEtYjJmMS00YmE3LTgxMDktOWUwZjczMTdhNGQ1XkEyXkFqcGdeQXVyODg3Mjk3Mjc@._V1_UX182_CR0,0,182,268_AL_.jpg",
+        "directors": [
+            "Sidney Olcott"
+        ],
+        "actors": [
+            "Alice Hollister",
+            "Gene Gauntier",
+            "George Kellog",
+            "J.P. McGowan",
+            "James D. Ainsley",
+            "Percy Dyer",
+            "R. Henderson Bland",
+            "Robert G. Vignola",
+            "Samuel Morgan"
+        ],
+        "writers": [
+            "Gene Gauntier"
+        ],
+        "genres": [
+            "Biography",
+            "Drama"
+        ]
+    },
+    "7": {
+        "id": 2423,
+        "url": "http://127.0.0.1:8000/api/v1/titles/2423",
+        "imdb_url": "https://www.imdb.com/title/tt0002423/",
+        "title": "Madame DuBarry",
+        "year": 1919,
+        "imdb_score": "6.8",
+        "votes": 766,
+        "image_url": "https://m.media-amazon.com/images/M/MV5BODIwYTFjYWMtNjZiOC00ZWM0LTkzMTAtOGVjYzE1Y2VlMmZjXkEyXkFqcGdeQXVyMzg1ODEwNQ@@._V1_UY268_CR2,0,182,268_AL_.jpg",
+        "directors": [
+            "Ernst Lubitsch"
+        ],
+        "actors": [
+            "Alexander Ekert",
+            "Bernhard Goetzke",
+            "Eduard von Winterstein",
+            "Else Berna",
+            "Emil Jannings",
+            "Fred Immler",
+            "Gustav Czimeg",
+            "Harry Liedtke",
+            "Karl Platen",
+            "Magnus Stifter",
+            "Paul Biensfeldt",
+            "Pola Negri",
+            "Reinhold Schünzel",
+            "Robert Sortsch-Pla",
+            "Willy Kaiser-Heyl"
+        ],
+        "writers": [
+            "Hanns Kräly",
+            "Norbert Falk"
+        ],
+        "genres": [
+            "Biography",
+            "Drama",
+            "Romance"
+        ]
+    },
+    "8": {
+        "id": 2445,
+        "url": "http://127.0.0.1:8000/api/v1/titles/2445",
+        "imdb_url": "https://www.imdb.com/title/tt0002445/",
+        "title": "Quo Vadis?",
+        "year": 1913,
+        "imdb_score": "6.2",
+        "votes": 279,
+        "image_url": "https://m.media-amazon.com/images/M/MV5BOTkyNjk5NzA4Nl5BMl5BanBnXkFtZTgwMDY1NjkwMjE@._V1_UY268_CR9,0,182,268_AL_.jpg",
+        "directors": [
+            "Enrico Guazzoni"
+        ],
+        "actors": [
+            "Amelia Cattaneo",
+            "Amleto Novelli",
+            "Augusto Mastripietri",
+            "Bruto Castellani",
+            "Carlo Cattaneo",
+            "Cesare Moltini",
+            "Giovanni Gizzi",
+            "Giuseppe Gambardella",
+            "Gustavo Serena",
+            "Ida Carloni Talli",
+            "Ignazio Lupi",
+            "Lea Giunchi",
+            "Lia Orlandini",
+            "Matilde Guillaume",
+            "Olga Brandini"
+        ],
+        "writers": [
+            "Enrico Guazzoni",
+            "Henryk Sienkiewicz"
+        ],
+        "genres": [
+            "Drama",
+            "History"
+        ]
+    },
+    "9": {
+        "id": 2452,
+        "url": "http://127.0.0.1:8000/api/v1/titles/2452",
+        "imdb_url": "https://www.imdb.com/title/tt0002452/",
+        "title": "Independenta Romaniei",
+        "year": 1912,
+        "imdb_score": "6.6",
+        "votes": 203,
+        "image_url": "https://m.media-amazon.com/images/M/MV5BOTFlZmRmYzgtZWNlMy00NmQ0LTg0YzktYWFhYzhmZWVkNmVmXkEyXkFqcGdeQXVyMTk3NTc0MTk@._V1_UY268_CR12,0,182,268_AL_.jpg",
+        "directors": [
+            "Aristide Demetriade",
+            "Grigore Brezeanu"
+        ],
+        "actors": [
+            "Aristide Demetriade",
+            "Aristita Romanescu",
+            "Aurel Athanasescu",
+            "C. Nedelcovici",
+            "Constanta Demetriade",
+            "Constantin Nottara",
+            "Elvire Popesco",
+            "Gheorghe Meliseanu",
+            "Ion Dumitrescu",
+            "Jeny Metaxa-Doro",
+            "M. Vîrgolici",
+            "Mihail Tancovici-Cosmin",
+            "Nicolae Soreanu",
+            "Pepi Machauer",
+            "Vasile Toneanu"
+        ],
+        "writers": [
+            "Aristide Demetriade",
+            "Petre Liciu"
+        ],
+        "genres": [
+            "History",
+            "War"
+        ]
+    },
+    "10": {
+        "id": 2461,
+        "url": "http://127.0.0.1:8000/api/v1/titles/2461",
+        "imdb_url": "https://www.imdb.com/title/tt0002461/",
+        "title": "Richard III",
+        "year": 1912,
+        "imdb_score": "5.5",
+        "votes": 223,
+        "image_url": "https://m.media-amazon.com/images/M/MV5BMTQ1ODY2NTU4OF5BMl5BanBnXkFtZTgwNTc3NjU4MDE@._V1_UX182_CR0,0,182,268_AL_.jpg",
+        "directors": [
+            "André Calmettes",
+            "James Keane"
+        ],
+        "actors": [
+            "Albert Gardner",
+            "Carey Lee",
+            "Carlotta De Felice",
+            "Frederick Warde",
+            "George Moss",
+            "Howard Stuart",
+            "James Keane",
+            "Robert Gemp",
+            "Violet Stuart",
+            "Virginia Rankin"
+        ],
+        "writers": [
+            "James Keane",
+            "William Shakespeare"
+        ],
+        "genres": [
+            "Drama"
+        ]
+    },
+    "11": {
+        "id": 2646,
+        "url": "http://127.0.0.1:8000/api/v1/titles/2646",
+        "imdb_url": "https://www.imdb.com/title/tt0002646/",
+        "title": "Atlantis",
+        "year": 1913,
+        "imdb_score": "6.6",
+        "votes": 339,
+        "image_url": "https://m.media-amazon.com/images/M/MV5BOTU4NWQzMmQtMWU1Ni00NTFlLTg3MDctNTU0ZmViZDQ2NTY0XkEyXkFqcGdeQXVyODMyMTEyMzM@._V1_UX182_CR0,0,182,268_AL_.jpg",
+        "directors": [
+            "August Blom"
+        ],
+        "actors": [
+            "Cajus Bruun",
+            "Carl Lauritzen",
+            "Charles Unthan",
+            "Ebba Thomsen",
+            "Frederik Jacobsen",
+            "Ida Orloff",
+            "Lily Frederiksen",
+            "Maja Bjerre-Lind",
+            "Marie Dinesen",
+            "Michael Curtiz",
+            "Olaf Fønss",
+            "Oluf Billesborg",
+            "Svend Bille",
+            "Torben Meyer",
+            "Vera Esbøll"
+        ],
+        "writers": [
+            "Axel Garde",
+            "Gerhart Hauptmann"
+        ],
+        "genres": [
+            "Drama"
+        ]
+    },
+    "12": {
+        "id": 2844,
+        "url": "http://127.0.0.1:8000/api/v1/titles/2844",
+        "imdb_url": "https://www.imdb.com/title/tt0002844/",
+        "title": "Fantômas - À l'ombre de la guillotine",
+        "year": 1913,
+        "imdb_score": "7.0",
+        "votes": 1969,
+        "image_url": "https://m.media-amazon.com/images/M/MV5BMTQxNDAxNDk0Ml5BMl5BanBnXkFtZTgwMDQ0ODEwMzE@._V1_UX182_CR0,0,182,268_AL_.jpg",
+        "directors": [
+            "Louis Feuillade"
+        ],
+        "actors": [
+            "André Luguet",
+            "André Volbert",
+            "Edmund Breon",
+            "Georges Melchior",
+            "Jane Faber",
+            "Maillard",
+            "Naudier",
+            "René Navarre",
+            "Renée Carl",
+            "Yvette Andréyor"
+        ],
+        "writers": [
+            "Louis Feuillade",
+            "Marcel Allain"
+        ],
+        "genres": [
+            "Crime",
+            "Drama"
+        ]
+    },
+    "13": {
+        "id": 3014,
+        "url": "http://127.0.0.1:8000/api/v1/titles/3014",
+        "imdb_url": "https://www.imdb.com/title/tt0003014/",
+        "title": "Il calvario di una madre",
+        "year": 1913,
+        "imdb_score": "7.1",
+        "votes": 967,
+        "image_url": "https://m.media-amazon.com/images/M/MV5BNjg2Yjg2OWQtOTVjNC00YzQ1LTkzOGYtZDY0YTNkMDU2OGMwXkEyXkFqcGdeQXVyNzQxNDExNTU@._V1_UX182_CR0,0,182,268_AL_.jpg",
+        "directors": [
+            "Victor Sjöström"
+        ],
+        "actors": [
+            "Aron Lindgren",
+            "Bertil Malmstedt",
+            "Carl Barcklind",
+            "Erik Lindholm",
+            "Georg Grönroos",
+            "Hilda Borgström",
+            "Hugo Björne",
+            "Richard Lund",
+            "William Larsson"
+        ],
+        "writers": [
+            "Nils Krok"
+        ],
+        "genres": [
+            "Drama"
+        ]
+    },
+    "14": {
+        "id": 3037,
+        "url": "http://127.0.0.1:8000/api/v1/titles/3037",
+        "imdb_url": "https://www.imdb.com/title/tt0003037/",
+        "title": "Juve contre Fantômas",
+        "year": 1913,
+        "imdb_score": "7.0",
+        "votes": 1364,
+        "image_url": "https://m.media-amazon.com/images/M/MV5BMTFkM2M4MTAtMTE2NC00MjZlLThlZDctMWU3YTIwY2ViMzU4XkEyXkFqcGdeQXVyMDI3OTIzOA@@._V1_UY268_CR1,0,182,268_AL_.jpg",
+        "directors": [
+            "Louis Feuillade"
+        ],
+        "actors": [
+            "Edmund Breon",
+            "Georges Melchior",
+            "Laurent Morléas",
+            "René Navarre",
+            "Renée Carl",
+            "Yvette Andréyor"
+        ],
+        "writers": [
+            "Louis Feuillade",
+            "Marcel Allain"
+        ],
+        "genres": [
+            "Crime",
+            "Drama"
+        ]
+    },
+    "15": {
+        "id": 3102,
+        "url": "http://127.0.0.1:8000/api/v1/titles/3102",
+        "imdb_url": "https://www.imdb.com/title/tt0003102/",
+        "title": "Ma l'amor mio non muore...",
+        "year": 1914,
+        "imdb_score": "6.2",
+        "votes": 101,
+        "image_url": "https://m.media-amazon.com/images/M/MV5BNDM1MDU5OGUtMTFmMS00Mjc5LTljMzUtNjAwNjc2ZWIwYWRiXkEyXkFqcGdeQXVyMDk1ODM3MA@@._V1_UY268_CR83,0,182,268_AL_.jpg",
+        "directors": [
+            "Mario Caserini"
+        ],
+        "actors": [
+            "Antonio Monti",
+            "Camillo De Riso",
+            "Dante Cappelli",
+            "Emilio Petacci",
+            "Felice Metellio",
+            "Gentile Miotti",
+            "Gian Paolo Rosmino",
+            "Letizia Quaranta",
+            "Lyda Borelli",
+            "Maria Caserini",
+            "Mario Bonnard",
+            "Vittorio Rossi Pianelli"
+        ],
+        "writers": [
+            "Emiliano Bonetti",
+            "G. Monleone"
+        ],
+        "genres": [
+            "Drama"
+        ]
+    }
+}

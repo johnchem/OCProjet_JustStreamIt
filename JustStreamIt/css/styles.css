@@ -1,4 +1,7 @@
-/* Main page */
+/* 
+Main page 
+*/
+
 html {
     font-size: 20px;
     background-color: white;
@@ -8,7 +11,10 @@ main {
     display: block;
 }
 
-/* navigation menu */
+/* 
+navigation menu 
+*/
+
 nav {
     border: 1px black solid;
     display: flex;
@@ -34,7 +40,9 @@ nav a {
     flex-direction: row-reverse;
 }
 
-/* play button */
+/* 
+play button 
+*/
 
 .play_button {
     background-color: lightgray;
@@ -63,7 +71,9 @@ nav a {
     height: 50px;
 }
 
-/* top rated movie */
+/* 
+top rated movie 
+*/
 
 #bestMovie {
     border: 1px red solid;
@@ -110,13 +120,27 @@ nav a {
     align-self: last baseline;
 }
 
-/* carousel mng */
+/* 
+carousel mng 
+*/
 
 .carousel {
+    position: relative;
     display: flex;
-    overflow-x: scroll;
+    overflow: hidden;
     padding: 1rem 0;
     align-items: center;
+}
+
+.carousel__container {
+    transition: transform 0.3s;
+    transform: translate3d(0, 0, 0);
+}
+
+.carousel__container::after {
+    content: '';
+    clear: both;
+    display: table;
 }
 
 .categorie_title {
@@ -129,6 +153,41 @@ nav a {
     scroll-snap-align: start;
 }
 
+.carousel__next,
+.carousel__prev {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background-color: white url(assets/icons8-double-right-64.png) center center no-repeat;
+    background-size: 20px 20px;
+    border-radius: 50%;
+    top: 50%;
+    margin-top: -20px;
+    right: 0px;
+    box-shadow: 0 15px #3232321a, 0 5px 15px #0000001a;
+    cursor: pointer;
+    transition: transform 0.3s, opacity 0.3s;
+}
+
+.carousel__next:hover,
+.carousel__prev:hover {
+    transform: scale 1.2%;
+}
+
+.carousel__prev {
+    right: auto;
+    left: -20px;
+    background-image: url(assets/icons8-double-left-64.png);
+}
+
+.carousel__prev--hidden {
+    opacity: 0;
+}
+
+.carousel__next--hidden {
+    opacity: 0;
+}
+
 .go_right {
     float: right;
 }
@@ -137,11 +196,15 @@ nav a {
     float: left;
 }
 
-/* carousel item element */
+/* 
+carousel item element 
+*/
 
 .champs-titre {
     color: grey;
 }
+
+.carousel__item {}
 
 .card {
     position: relative;
@@ -153,6 +216,7 @@ ul {
 }
 
 .card-title {
+    color: white;
     font-size: 1em;
     text-shadow: 0em 0em 0.5em white;
     position: absolute;
@@ -167,7 +231,9 @@ div[class=card] img {
     border: 5px green solid;
 }
 
-/* popup mng */
+/* 
+popup mng 
+*/
 
 .modal {
     visibility: hidden;
@@ -182,32 +248,3 @@ div[class=card] img {
     vertical-align: top;
     font-size: 1.5em;
 }
-
-/*
-.d2 {
-    width: 400%;
-    height: 0%;
-    padding-top: 75%;
-    background-color: #ededed;
-    background-image: url("diapo123.png");
-    background-size: contain;
-    animation: defilement2 12s linear infinite;
-}
-
-.conteneur2 {
-    max-width: 960px;
-    overflow: hidden;
-    margin: 50px auto;
-    box-shadow: 0px 0px 10px #777;
-}
-
-@keyframes defilement2 {
-    0% {
-        transform: translate(0, 0);
-    }
-
-    100% {
-        transform: translate(-75%, 0);
-    }
-}
-*/
