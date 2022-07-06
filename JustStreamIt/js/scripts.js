@@ -21,7 +21,7 @@ class Carousel {
      */
     constructor(element, elementsToDisplay, options = {}) {
         this.element = element
-        elementsToDisplay.then(this.elementsToDisplay = elementsToDisplay)
+        this.elementsToDisplay = elementsToDisplay
         this.options = Object.assign({}, {
             slidesToScroll: 1,
             slidesVisible: 1,
@@ -29,27 +29,32 @@ class Carousel {
         }, options)
 
         // récupération des éléments du carousel
-        let children = []
-        for (obj in elementsToDisplay) {
-            children.append(carouselItem(obj.title, obj.url_image))
+        this.children = []
+        for (const i in this.elementsToDisplay) {
+            console.log(this.elementsToDisplay[i])
+            this.children.push(this.carouselItem(
+                this.elementsToDisplay[i].title,
+                this.elementsToDisplay[i].image_url
+            ))
         }
-        console.log(children)
+
+        console.log("liste enfant" + this.children)
 
         //creation du div pour le carousel et le container
         let ratio = this.children.length / this.options.slidesVisible
         this.currentItem = 0
-        this.root = this.createDivWithClass('carousel')
+        this.root = createDivWithClass('carousel')
 
         // creation d'un container pour les elements visible
-        this.container = this.createDivWithClass('carousel__container')
-        container.style.width(ratio * 100) + "%" // largeur du container pour les éléments visible
+        this.container = createDivWithClass('carousel__container')
+        this.container.style.width = (ratio * 100) + "%" // largeur du container pour les éléments visible
 
         // modification du HTML de la page
         this.root.appendChild(this.container)
-        this.element.appendchild(this.root)
+        this.element.appendChild(this.root)
         this.moveCallBacks = []
-        this.items = children.map((child) => {
-            let item = this.createDivWithClass('carousel__item')
+        this.items = this.children.map((child) => {
+            let item = createDivWithClass('carousel__item')
             item.appendChild(child)
             this.container.appendChild(item)
             return item
@@ -66,38 +71,40 @@ class Carousel {
          */
 
     carouselItem(title, url_image) {
+        console.log(title)
+        console.log(url_image)
         this.title = title
         this.url_image = url_image
         // cree un container pour un item du carousel
-        this.container = this.createDivWithClass("item")
+        this.container = createDivWithClass("item")
 
         // cree la partie de l'image pour l'image
-        let pictureContainer = this.createDivWithClass("card__img")
+        let pictureContainer = createDivWithClass("card__img")
         let img = document.createElement('img')
         img.setAttribute('src', this.url_image)
         pictureContainer.appendChild(img)
         this.container.appendChild(pictureContainer)
 
         // cree la partie pour le titre
-        let titleElement = this.createDivWithClass("card__title")
+        let titleElement = createDivWithClass("card__title")
         titleElement.innerHTML = this.title
-        this.container.appendChild(title)
+        this.container.appendChild(titleElement)
 
         return this.container
     }
 
     setStyle() {
-        let ratio = this.item.length / this.options.slidesVisible
+        let ratio = this.items.length / this.options.slidesVisible
         this.container.style.width = (ratio * 100) + "%"
-        this.item.forEach(item => item.style.width = ((100 / this.options.slidesVisible) / ratio) + "%")
+        this.items.forEach(item => item.style.width = ((100 / this.options.slidesVisible) / ratio) + "%")
     }
 
     /**
      * applique les bonnes dimensions aux éléments
      */
     createNavigation() {
-        let nextButton = createDivWithClass(carousel__next)
-        let prevButton = createDivWithClass(carousel__prev)
+        let nextButton = createDivWithClass("carousel__next")
+        let prevButton = createDivWithClass("carousel__prev")
 
         this.root.appendChild(nextButton)
         this.root.appendChild(prevButton)
@@ -165,7 +172,7 @@ function createDivWithClass(className) {
     return div
 }
 
-function initCarousel() {
+function initCarousel(data) {
     console.log("start carousel")
     new Carousel(document.querySelector("#test_carousel"),
         data,
@@ -186,7 +193,19 @@ async function fetchMochData() {
     return data
 }
 
-let data = fetchMochData();
+fetchMochData().then((response) => {
+    let data = response
+    if (document.readyState !== 'loading') {
+        console.log("doc chargé")
+        console.log(data)
+        initCarousel(data)
+    } else {
+        document.addEventListener("DOMContentLoaded", function () {
+            console.log("reload carousel")
+            initCarousel(data)
+        })
+    }
+})
 
 var pictureHolder = document.getElementById("test")
 pictureHolder.src = "https://m.media-amazon.com/images/M/MV5BNTY4ZDk5MzYtNjk2Zi00ZWY3LTgwZjUtNDc5MWEzMWFlOTQzXkEyXkFqcGdeQXVyNjU1MTEwMjI@._V1_UY268_CR1,0,182,268_AL_.jpg"
@@ -194,12 +213,3 @@ pictureHolder.src = "https://m.media-amazon.com/images/M/MV5BNTY4ZDk5MzYtNjk2Zi0
 let myHeading = document.querySelector('h1')
 myHeading.textContent = 'JustStreamIt'
 
-if (document.readyState !== 'loading') {
-    console.log("doc chargé")
-    initCarousel()
-} else {
-    document.addEventListener("DOMContentLoaded", function () {
-        console.log("start carousel")
-        initCarousel()
-    })
-}

@@ -158,7 +158,7 @@ carousel mng
     position: absolute;
     width: 40px;
     height: 40px;
-    background-color: white url(assets/icons8-double-right-64.png) center center no-repeat;
+    background-color: white url(../assets/icons8-double-right-64.png) center center no-repeat;
     background-size: 20px 20px;
     border-radius: 50%;
     top: 50%;
@@ -177,7 +177,7 @@ carousel mng
 .carousel__prev {
     right: auto;
     left: -20px;
-    background-image: url(assets/icons8-double-left-64.png);
+    background-image: url(../assets/icons8-double-left-64.png);
 }
 
 .carousel__prev--hidden {
