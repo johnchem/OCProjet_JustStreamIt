@@ -178,7 +178,7 @@ function initCarousel(data) {
         data,
         {
             slidesToScroll: 1,
-            slidesVisible: 3
+            slidesVisible: 4
         })
 }
 
@@ -206,9 +206,6 @@ fetchMochData().then((response) => {
         })
     }
 })
-
-var pictureHolder = document.getElementById("test")
-pictureHolder.src = "https://m.media-amazon.com/images/M/MV5BNTY4ZDk5MzYtNjk2Zi00ZWY3LTgwZjUtNDc5MWEzMWFlOTQzXkEyXkFqcGdeQXVyNjU1MTEwMjI@._V1_UY268_CR1,0,182,268_AL_.jpg"
 
 let myHeading = document.querySelector('h1')
 myHeading.textContent = 'JustStreamIt'
