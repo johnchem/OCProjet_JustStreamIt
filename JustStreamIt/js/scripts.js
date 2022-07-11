@@ -31,14 +31,11 @@ class Carousel {
         // récupération des éléments du carousel
         this.children = []
         for (const i in this.elementsToDisplay) {
-            console.log(this.elementsToDisplay[i])
             this.children.push(this.carouselItem(
                 this.elementsToDisplay[i].title,
                 this.elementsToDisplay[i].image_url
             ))
         }
-
-        console.log("liste enfant" + this.children)
 
         //creation du div pour le carousel et le container
         let ratio = this.children.length / this.options.slidesVisible
@@ -71,8 +68,6 @@ class Carousel {
          */
 
     carouselItem(title, url_image) {
-        console.log(title)
-        console.log(url_image)
         this.title = title
         this.url_image = url_image
         // cree un container pour un item du carousel
@@ -129,10 +124,16 @@ class Carousel {
         })
     }
 
+    /**
+     * contrôle les actions de déplacemnt du carousel vers la droite
+     */
     next() {
         this.goToItem(this.currentItem + this.options.slidesToScroll)
     }
 
+    /**
+     * contrôle les actions de déplacemnt du carousel vers la gauche
+     */
     prev() {
         this.goToItem(this.currentItem - this.options.slidesToScroll)
     }
@@ -162,6 +163,74 @@ class Carousel {
 
 }
 
+class requestJsonData {
+    constructor(filterOption = {}) {
+        this.filter = Object.assign({
+            year: "",
+            min_year: "",
+            max_year: "",
+            imdb_score: "",
+            imdb_score_min: "",
+            imdb_score_max: "",
+            title: "",
+            title_contains: "",
+            genre: "",
+            genre_contains: "",
+            sort_by: "",
+            director: "",
+            director_contains: "",
+            writer: "",
+            writer_contains: "",
+            actor: "",
+            actor_contains: "",
+            country: "",
+            country_contains: "",
+            lang: "",
+            lang_contains: "",
+            company: "",
+            company_contains: "",
+            rating: "",
+            rating_contains: "",
+        }, filterOption)
+
+        this.rootApi = "http://localhost:8000/api/v1/titles/"
+        this.buildRequest()
+    }
+
+    buildRequest() {
+        this.filterString = "?format=json"
+        for (const [key, value] of Object.entries(this.filter)) {
+            if (value === "") { continue }
+            this.filterString += "&" + key + "=" + value
+        }
+    }
+
+    orderBy(champ = "", reverse = false) {
+        if (reverse === true) {
+            champ = "-" + champ
+        }
+        this.filter.sort_by = champ
+        this.buildRequest()
+    }
+
+    async fetch(url = this.rootApi + this.filterString) {
+        let response = await fetch(url)
+        let data = await response.json()
+        return data
+    }
+
+    async fetchData(nb_results = 5) {
+        let tmpData = await this.fetch()
+        let data = tmpData
+        while (data.results.length < nb_results) {
+            tmpData = await this.fetch(tmpData.next)
+            data.next = tmpData.next
+            tmpData.results.forEach(value => data.results.push(value))
+        }
+        return data
+    }
+}
+
 /**
 * @param {string} className
 * @returns {HTMLElement} 
@@ -172,40 +241,115 @@ function createDivWithClass(className) {
     return div
 }
 
-function initCarousel(data) {
-    console.log("start carousel")
-    new Carousel(document.querySelector("#test_carousel"),
+/** 
+ * fonction pour l'initialisation des carousels
+ * @param {HTMLElement} element element de carousel
+ * @param {Object} data liste des élements à afficher
+ * @return {carousel} 
+*/
+function initCarousel(element, data) {
+    var carousel = new Carousel(element,
         data,
         {
             slidesToScroll: 1,
             slidesVisible: 4
         })
+    return carousel
 }
 
-const json_data = '{"tutu": {"id": 9,"url": "http://127.0.0.1:8000/api/v1/titles/9","title": "Miss Jerry"}}'
-var obj = JSON.parse(json_data)
-console.log(obj.tutu)
-
+/**
+ * importe des données de test depuis moch_data
+ * @returns 
+ */
 async function fetchMochData() {
     let response = await fetch("./mock_data.json")
     let data = await response.json()
-    console.log(data[2].image_url)
     return data
 }
 
-fetchMochData().then((response) => {
-    let data = response
+/**
+ * carousel Best Movies
+ */
+let requestCarouselBestMovies = new requestJsonData()
+requestCarouselBestMovies.orderBy("imdb_score", true)
+
+requestCarouselBestMovies.fetchData(10).then((response) => {
+    let carouselElementBestMovies = document.querySelector("#bestScoredMovie")
     if (document.readyState !== 'loading') {
-        console.log("doc chargé")
-        console.log(data)
-        initCarousel(data)
+        initCarousel(carouselElementBestMovies, response.results)
     } else {
         document.addEventListener("DOMContentLoaded", function () {
-            console.log("reload carousel")
-            initCarousel(data)
+            initCarousel(carouselElementBestMovies, response.results)
         })
     }
 })
+
+/**
+ * 1st carousel
+ */
+let requestCarousel_1 = new requestJsonData({
+    genre: "comedy"
+})
+
+requestCarousel_1.fetchData(10).then((responseCar_1) => {
+    let carouselElement_1 = document.querySelector("#carousel_cat_1")
+
+    if (document.readyState !== 'loading') {
+        initCarousel(carouselElement_1, responseCar_1.results)
+    } else {
+        document.addEventListener("DOMContentLoaded", function () {
+            initCarousel(carouselElement_1, responseCar_1.results)
+        })
+    }
+})
+
+/**
+ *  2nd carousel
+ */
+let requestCarousel_2 = new requestJsonData({
+    genre: "news"
+})
+
+requestCarousel_2.fetchData(10).then((responseCar_2) => {
+    let carouselElement_2 = document.querySelector("#carousel_cat_2")
+
+    if (document.readyState !== 'loading') {
+        initCarousel(carouselElement_2, responseCar_2.results)
+    } else {
+        document.addEventListener("DOMContentLoaded", function () {
+            initCarousel(carouselElement_2, responseCar_2.results)
+        })
+    }
+})
+
+/**
+ *  3rd carousel
+ */
+let requestCarousel_3 = new requestJsonData({
+    genre: "Fantasy"
+})
+
+requestCarousel_3.fetchData(10).then((responseCar_3) => {
+    let carouselElement_3 = document.querySelector("#carousel_cat_3")
+
+    if (document.readyState !== 'loading') {
+        initCarousel(carouselElement_3, responseCar_3.results)
+    } else {
+        document.addEventListener("DOMContentLoaded", function () {
+            initCarousel(carouselElement_3, responseCar_3.results)
+        })
+    }
+})
+
+let request = new requestJsonData({
+    year: "1988"
+})
+
+request.orderBy("imdb_score", true)
+request.fetchData(11).then(response => {
+    console.log(response)
+}
+)
 
 let myHeading = document.querySelector('h1')
 myHeading.textContent = 'JustStreamIt'
