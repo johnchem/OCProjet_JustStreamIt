@@ -37,7 +37,7 @@
 
             <div class="play">
                 <button class="play_button">
-                    <img src="assets/icons8-play-100.png" alt="Play">Play
+                    <div>Lecture</div>
                 </button>
             </div>
 
@@ -47,12 +47,6 @@
                 article, she leads Hamilton into doubting her love for him, and this makes him accept a job in London.
                 But his worries prove wrong when Jerry accepts to marry him and leave to London.
             </div>
-        </section>
-
-        <!-- test pour le carousel de grafikArt -->
-        <section id="test_carousel" class="carousel__wrapper">
-            <div class="categorie__title"> Test carousel GrafikArt</div>
-
         </section>
 
         <!-- liste des meilleurs films -->
@@ -79,108 +73,119 @@
             </div>
         </section>
 
-        <!-- Modal content -->
-        <section id="filmSheet" class="modal">
-            <div class="modal-header">
-                <h2 class="title">le Meilleur film</h2>
-                <button class="close">
-                    <img src="assets/icons8-close-48.png" alt="close">
-                </button>
-            </div>
+        <!-- The modal -->
+        <div id="filmSheet" class="modal">
 
-            <div class="modal-body">
-                <img src="https://m.media-amazon.com/images/M/MV5BNjA5Y2ZhYzctNDc1Yy00OGViLWI3NGUtOTYwZmE3NDFiYmIxXkEyXkFqcGdeQXVyNTIzOTk5ODM@._V1_UY268_CR72,0,182,268_AL_.jpg"
-                    alt="Affiche du film">
-                <button class="play">
-                    <img src="assets/icons8-play-100.png" alt="play button">Play
-                </button>
-                <table>
-                    <tr>
-                        <td>
-                            <div class="champs-titre">Genre : </div>
-                        </td>
-                        <td>
-                            <div class="genres">Romance</div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="champs-titre">Date de sortie : </div>
-                        </td>
-                        <td>
-                            <div class="date_published">1894-10-09</div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="champs-titre">Score : </div>
-                        </td>
-                        <td>
-                            <div class="avg_vote">5.9</div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="champs-titre">Imdb : </div>
-                        </td>
-                        <td>
-                            <div class="imdb_score">6.0</div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="champs-titre">Réalisé par : </div>
-                        </td>
-                        <td>
-                            <div class="director">Alexander Black</div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="champs-titre">Acteurs : </div>
-                        </td>
-                        <td>
-                            <div class="actors">Blanche Bayliss,Chauncey Depew,William Courtena</div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td>
-                            <div class="duration">45</div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="champs-titre">Origine : </div>
-                        </td>
-                        <td>
-                            <div class="countries">USA</div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="champs-titre">Résultats au Box Office : </div>
-                        </td>
-                        <td>
-                            <div class="box_office_result">2250</div>
-                        </td>
-                    </tr>
-                </table>
-                <div class="long_description">Geraldine (Jerry) Holbrook, a girl of Eastern birth, decides to start a
-                    career
-                    in journalism in the heart of New York, after she feels that her father is close to a financial
-                    crush.
-                    In the process she falls in love with the editor of her paper, Mr. Hamilton. After the first
-                    successful
-                    article, she leads Hamilton into doubting her love for him, and this makes him accept a job in
-                    London.
-                    But his worries prove wrong when Jerry accepts to marry him and leave to London.
+            <!-- the modal content-->
+            <div class="modal-container">
+                <!-- modal header -->
+                <div class="modal-header">
+                    <h2 class="modal-title">le Meilleur film</h2>
+                    <button class="modale-button close_button"></button>
+                </div>
+                <!-- modal body -->
+                <div class="modal-body">
+                    <img class="modal-picture"
+                        src="https://m.media-amazon.com/images/M/MV5BNjA5Y2ZhYzctNDc1Yy00OGViLWI3NGUtOTYwZmE3NDFiYmIxXkEyXkFqcGdeQXVyNTIzOTk5ODM@._V1_UY268_CR72,0,182,268_AL_.jpg"
+                        alt="Affiche du film">
+                    <button class="modal-button play_button">
+                        <div>Lecture</div>
+                    </button>
+                    <table class="modal-table">
+                        <tr>
+                            <td>
+                                <div class="modal-champs titre">Genre : </div>
+                            </td>
+                            <td>
+                                <div class="genres">Romance</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="modal-champs titre">Date de sortie : </div>
+                            </td>
+                            <td>
+                                <div class="date_published">1894-10-09</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="modal-champs titre">Score : </div>
+                            </td>
+                            <td>
+                                <div class="avg_vote">5.9</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="modal-champs titre">Imdb : </div>
+                            </td>
+                            <td>
+                                <div class="imdb_score">6.0</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="modal-champs titre">Réalisé par : </div>
+                            </td>
+                            <td>
+                                <div class="director">Alexander Black</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="modal-champs titre">Acteurs : </div>
+                            </td>
+                            <td>
+                                <div class="actors">Blanche Bayliss,Chauncey Depew,William Courtena</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="modal-champs titre">Duration :</div>
+                            </td>
+                            <td>
+                                <div class="duration">45</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="modal-champs titre">Origine : </div>
+                            </td>
+                            <td>
+                                <div class="countries">USA</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="modal-champs titre">Résultats au Box Office : </div>
+                            </td>
+                            <td>
+                                <div class="box_office_result">2250</div>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="modal-champs long_description">Geraldine (Jerry) Holbrook, a girl of Eastern birth,
+                        decides
+                        to start a
+                        career
+                        in journalism in the heart of New York, after she feels that her father is close to a financial
+                        crush.
+                        In the process she falls in love with the editor of her paper, Mr. Hamilton. After the first
+                        successful
+                        article, she leads Hamilton into doubting her love for him, and this makes him accept a job in
+                        London.
+                        But his worries prove wrong when Jerry accepts to marry him and leave to London.
+                    </div>
+                </div>
+                <!-- modal footer -->
+                <div class="modal-footer">
                 </div>
             </div>
-            <div class="modal-footer">
+        </div>
 
-            </div>
-        </section>
+        <!-- Trigger/Open The Modal -->
+        <button id="myBtn">Open Modal</button>
     </main>
 </body>
 

@@ -45,13 +45,22 @@ play button
 */
 
 .play_button {
-    background-color: lightgray;
+    min-width: 40px;
+    height: 40px;
     border-radius: 5px;
     margin-left: 20px;
-    box-shadow: 0 5px black;
-    vertical-align: middle;
-    text-align: left;
+    margin-top: -20px;
+    box-shadow: 0 5px #3232321a, 0 5px 15px #0000001a;
+    background: lightgray url(../assets/icons8-play-100.png) center left no-repeat;
+    background-size: 40px 40px;
     font-size: 1em;
+    text-indent: 40px;
+
+    top: 50%;
+    right: 0px;
+
+    cursor: pointer;
+    transition: transform 0.3s, opacity 0.3s;
 }
 
 .play_button:hover {
@@ -125,6 +134,7 @@ carousel mng
 */
 .carousel {
     margin-bottom: 30px;
+    overflow: hidden;
 }
 
 .carousel__wrapper {
@@ -238,19 +248,127 @@ carousel item element
 }
 
 /* 
-popup mng 
+modal box 
 */
 
 .modal {
-    visibility: hidden;
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
 }
 
-.modal>table {
-    display: fixed;
+.modal.active {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-container {
+    position: inherit;
     top: 50%;
-    bottom: 50%;
-    transform: translate(50%, 50%);
-    zoom: 1;
-    vertical-align: top;
-    font-size: 1.5em;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 80%;
+    height: auto;
+    border: 2px solid black;
+    background: lightcoral;
+    font-size: 0.8em;
+}
+
+/*
+modal header
+*/
+
+.modal-header {
+    position: inherit;
+    top: 0px;
+}
+
+.modal-title {
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+.close_button {
+    position: inherit;
+    top: 0px;
+    right: 0px;
+
+    width: 25px;
+    height: 25px;
+    border-radius: 5px;
+    margin-right: 10px;
+    margin-top: 10px;
+
+    box-shadow: 0 5px #3232321a, 0 5px 15px #0000001a;
+    background: lightgray url(../assets/icons8-close-48.png) center center no-repeat;
+    background-size: 20px 20px;
+    font-size: 1em;
+    text-indent: 40px;
+
+    cursor: pointer;
+    transition: transform 0.3s, opacity 0.3s;
+}
+
+/*
+modal footer
+*/
+
+.modal-footer {
+    position: inherit;
+}
+
+/*
+modal body
+*/
+
+.modal-body {
+    margin-top: 60px;
+    display: grid;
+    grid-template: "pic table""pic play""descrip descrip";
+    grid-gap: 5px;
+}
+
+.modal-table {
+    justify-content: center;
+    grid-area: table;
+    margin: 5px;
+}
+
+.modal-table td {
+    padding: 2px;
+    background-color: green;
+}
+
+.modal-button.play_button {
+    grid-area: play;
+    margin: auto;
+    justify-content: right;
+}
+
+.modal-champs {
+    text-align: justify;
+    margin: 5px;
+    grid-area: descrip;
+}
+
+.modal-picture {
+    grid-area: pic;
+    margin: 5px;
+    justify-content: center;
+    width: auto;
+    height: 100%;
+    max-height: 400px;
 }

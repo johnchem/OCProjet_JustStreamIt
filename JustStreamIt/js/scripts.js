@@ -52,6 +52,7 @@ class Carousel {
         this.moveCallBacks = []
         this.items = this.children.map((child) => {
             let item = createDivWithClass('carousel__item')
+            // this.addModal(item)
             item.appendChild(child)
             this.container.appendChild(item)
             return item
@@ -77,6 +78,7 @@ class Carousel {
         let pictureContainer = createDivWithClass("card__img")
         let img = document.createElement('img')
         img.setAttribute('src', this.url_image)
+        this.addModal(img)
         pictureContainer.appendChild(img)
         this.container.appendChild(pictureContainer)
 
@@ -161,6 +163,17 @@ class Carousel {
         this.moveCallBacks.push(cb)
     }
 
+    request(option = {}) {
+        this.request = new requestJsonData(option)
+    }
+
+    addModal(item) {
+        item.addEventListener("click", (event) => {
+            var modal = document.getElementById("filmSheet")
+            modal.classList.toggle("active")
+            console.log("modale")
+        })
+    }
 }
 
 class requestJsonData {
@@ -222,7 +235,8 @@ class requestJsonData {
     async fetchData(nb_results = 5) {
         let tmpData = await this.fetch()
         let data = tmpData
-        while (data.results.length < nb_results) {
+        let maxItem = tmpData.count
+        while ((data.results.length < nb_results) && (data.results.length < maxItem)) {
             tmpData = await this.fetch(tmpData.next)
             data.next = tmpData.next
             tmpData.results.forEach(value => data.results.push(value))
@@ -267,6 +281,26 @@ async function fetchMochData() {
     return data
 }
 
+// récupération de la fenêtre modal
+var modal = document.getElementById("filmSheet");
+
+// récupérer le bouton fermer de la modale
+var modal_button = document.getElementsByClassName("close_button")[0];
+
+// ferme la fenêtre quand l'utilisateur clique sur le boutton
+modal_button.onclick = function () {
+    modal.classList.toggle("active")
+    console.log("modale close")
+}
+
+// ferme la fenpetre quand l'utilisateur clique partout ailleurs
+window.onclick = function (event) {
+    if (event.target == modal) {
+        modal.classList.toggle("active")
+        console.log("modale close")
+    }
+}
+
 /**
  * carousel Best Movies
  */
@@ -276,10 +310,10 @@ requestCarouselBestMovies.orderBy("imdb_score", true)
 requestCarouselBestMovies.fetchData(10).then((response) => {
     let carouselElementBestMovies = document.querySelector("#bestScoredMovie")
     if (document.readyState !== 'loading') {
-        initCarousel(carouselElementBestMovies, response.results)
+        initCarousel(carouselElementBestMovies, response.results, requestCarouselBestMovies)
     } else {
         document.addEventListener("DOMContentLoaded", function () {
-            initCarousel(carouselElementBestMovies, response.results)
+            initCarousel(carouselElementBestMovies, response.results, requestCarouselBestMovies)
         })
     }
 })
@@ -290,6 +324,7 @@ requestCarouselBestMovies.fetchData(10).then((response) => {
 let requestCarousel_1 = new requestJsonData({
     genre: "comedy"
 })
+requestCarousel_1.orderBy("imdb_score", true)
 
 requestCarousel_1.fetchData(10).then((responseCar_1) => {
     let carouselElement_1 = document.querySelector("#carousel_cat_1")
@@ -309,10 +344,10 @@ requestCarousel_1.fetchData(10).then((responseCar_1) => {
 let requestCarousel_2 = new requestJsonData({
     genre: "news"
 })
+requestCarousel_2.orderBy("imdb_score", true)
 
 requestCarousel_2.fetchData(10).then((responseCar_2) => {
     let carouselElement_2 = document.querySelector("#carousel_cat_2")
-
     if (document.readyState !== 'loading') {
         initCarousel(carouselElement_2, responseCar_2.results)
     } else {
@@ -328,6 +363,7 @@ requestCarousel_2.fetchData(10).then((responseCar_2) => {
 let requestCarousel_3 = new requestJsonData({
     genre: "Fantasy"
 })
+requestCarousel_3.orderBy("imdb_score", true)
 
 requestCarousel_3.fetchData(10).then((responseCar_3) => {
     let carouselElement_3 = document.querySelector("#carousel_cat_3")
@@ -345,12 +381,10 @@ let request = new requestJsonData({
     year: "1988"
 })
 
-request.orderBy("imdb_score", true)
-request.fetchData(11).then(response => {
-    console.log(response)
-}
-)
+var itemCarouselList = Array.from(document.getElementsByClassName("card__img"))
+console.log(itemCarouselList)
+itemCarouselList.forEach(element => addModal(element))
+
 
 let myHeading = document.querySelector('h1')
 myHeading.textContent = 'JustStreamIt'
-
