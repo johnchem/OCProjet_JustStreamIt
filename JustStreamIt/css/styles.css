@@ -297,8 +297,7 @@ modal header
 }
 
 .modal-title {
-    margin-top: 10px;
-    margin-left: 10px;
+    margin: 10px 10px 10px 10px;
 }
 
 .close_button {
@@ -335,7 +334,7 @@ modal body
 */
 
 .modal-body {
-    margin-top: 60px;
+    margin-top: 40px;
     display: grid;
     grid-template: "pic table""pic play""descrip descrip";
     grid-gap: 5px;
@@ -348,13 +347,13 @@ modal body
 }
 
 .modal-table td {
-    padding: 2px;
-    background-color: green;
+    padding: 0px;
+
 }
 
 .modal-button.play_button {
     grid-area: play;
-    margin: auto;
+    margin: auto auto auto 1px;
     justify-content: right;
 }
 
@@ -364,11 +363,20 @@ modal body
     grid-area: descrip;
 }
 
+.modal-champs.titre {
+    margin: 2px;
+    text-align: left;
+    font-weight: bold;
+}
+
 .modal-picture {
     grid-area: pic;
-    margin: 5px;
-    justify-content: center;
+    margin: 0px auto 0px auto;
+    padding: 5px;
+
+    justify-content: middle;
+    align-items: center;
     width: auto;
-    height: 100%;
+    height: auto;
     max-height: 400px;
 }

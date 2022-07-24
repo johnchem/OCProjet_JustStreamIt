@@ -32,8 +32,7 @@ class Carousel {
         this.children = []
         for (const i in this.elementsToDisplay) {
             this.children.push(this.carouselItem(
-                this.elementsToDisplay[i].title,
-                this.elementsToDisplay[i].image_url
+                this.elementsToDisplay[i]
             ))
         }
 
@@ -63,14 +62,15 @@ class Carousel {
     }
 
     /**
-         * @param {string} title
-         * @param {string} url_image url pour la mignature de image
-         * @returns {HTMLElement}
-         */
-
-    carouselItem(title, url_image) {
-        this.title = title
-        this.url_image = url_image
+     * @param {string} title
+     * @param {string} url_image url pour la mignature de image
+     * @returns {HTMLElement}
+     */
+    carouselItem(element) {
+        this.title = element.title
+        this.url_image = element.image_url
+        this.modalContent = [
+        ]
         // cree un container pour un item du carousel
         this.container = createDivWithClass("item")
 
@@ -167,11 +167,41 @@ class Carousel {
         this.request = new requestJsonData(option)
     }
 
-    addModal(item) {
-        item.addEventListener("click", (event) => {
+    async getModalContent(url) {
+        let modalContent = await fetchUrl(url)
+        for (let [key, value] of modalContent) {
+            if (value === None) {
+                value = "unkwown"
+            }
+            if (typeof (value) === "array") {
+                value = value.toString()
+            }
+        }
+        return modalContent
+    }
+
+    addModal(item, modalContent) {
+        this.modalContent = modalContent
+        item.addEventListener("click", (modalContent) => {
+            //en-tête et image
+            document.getElementsByClassName("modal-title").innerHTML = modalContent.title
+            document.getElementsByClassName("modal-picture").innerHTML = modalContent.image_url
+
+            // table d'info
+            document.getElementById("genres").innerHTML = modalContent["genres"]
+            document.getElementById("date_published").innerHTML = modalContent["date_published"]
+            document.getElementById("avg_vote").innerHTML = modalContent["genres"]
+            document.getElementById("imdb_score").innerHTML = modalContent["imdb_score"]
+            document.getElementById("directors").innerHTML = modalContent["directors"]
+            document.getElementById("actors").innerHTML = modalContent["actors"]
+            document.getElementById("duration").innerHTML = modalContent["duration"] + " min"
+            document.getElementById("countries").innerHTML = modalContent["countries"]
+            document.getElementById("box_office_result").innerHTML = modalContent["worldwide_gross_income"]
+            document.getElementById("long_description").innerHTML = modalContent["long_description"]
+
+            // activation de la modal
             var modal = document.getElementById("filmSheet")
             modal.classList.toggle("active")
-            console.log("modale")
         })
     }
 }
@@ -226,7 +256,25 @@ class requestJsonData {
         this.buildRequest()
     }
 
-    async fetch(url = this.rootApi + this.filterString) {
+    async fetchData(nb_results = 5) {
+        let tmpData = await fetchUrl(this.rootApi + this.filterString)
+        let data = tmpData
+        let maxItem = tmpData.count
+        while ((data.results.length < nb_results) && (data.results.length < maxItem)) {
+            tmpData = await fetchUrl(tmpData.next)
+            data.next = tmpData.next
+            tmpData.results.forEach(value => data.results.push(value))
+        }
+        return data
+    }
+}
+
+class requestDataFromUrl {
+    constructor(url) {
+        this.url = url
+    }
+
+    async fetch() {
         let response = await fetch(url)
         let data = await response.json()
         return data
@@ -243,6 +291,7 @@ class requestJsonData {
         }
         return data
     }
+
 }
 
 /**
@@ -277,6 +326,16 @@ function initCarousel(element, data) {
  */
 async function fetchMochData() {
     let response = await fetch("./mock_data.json")
+    let data = await response.json()
+    return data
+}
+
+/**
+ * @param {URL} url adresse de la requete
+ * @return {data}
+ */
+async function fetchUrl(url) {
+    let response = await fetch(url)
     let data = await response.json()
     return data
 }
