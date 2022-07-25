@@ -31,7 +31,7 @@ class Carousel {
         // récupération des éléments du carousel
         this.children = []
         for (const i in this.elementsToDisplay) {
-            this.children.push(this.carouselItem(
+            this.children.push(this.carouselItem(this,
                 this.elementsToDisplay[i]
             ))
         }
@@ -51,7 +51,7 @@ class Carousel {
         this.moveCallBacks = []
         this.items = this.children.map((child) => {
             let item = createDivWithClass('carousel__item')
-            // this.addModal(item)
+            // this.addModal(item,)
             item.appendChild(child)
             this.container.appendChild(item)
             return item
@@ -61,24 +61,41 @@ class Carousel {
         this.moveCallBacks.forEach(cb => cb(0))
     }
 
+    buildModal(url) {
+        this.modalContent = this.getModalContent(url)
+        //en-tête et image
+        document.getElementsByClassName("modal-title").innerHTML = this.modalContent.title
+        document.getElementsByClassName("modal-picture").innerHTML = this.modalContent.image_url
+
+        // table d'info
+        document.getElementById("genres").innerHTML = this.modalContent["genres"]
+        document.getElementById("date_published").innerHTML = this.modalContent["date_published"]
+        document.getElementById("avg_vote").innerHTML = this.modalContent["genres"]
+        document.getElementById("imdb_score").innerHTML = this.modalContent["imdb_score"]
+        console.log(modalContent["directors"])
+        document.getElementById("directors").innerHTML = this.modalContent["directors"]
+        document.getElementById("actors").innerHTML = this.modalContent["actors"]
+        document.getElementById("duration").innerHTML = this.modalContent["duration"] + " min"
+        document.getElementById("countries").innerHTML = this.modalContent["countries"]
+        document.getElementById("box_office_result").innerHTML = this.modalContent["worldwide_gross_income"]
+        document.getElementById("long_description").innerHTML = this.modalContent["long_description"]
+    }
+
     /**
      * @param {string} title
      * @param {string} url_image url pour la mignature de image
      * @returns {HTMLElement}
      */
-    carouselItem(element) {
+    carouselItem(carousel, element) {
         this.title = element.title
         this.url_image = element.image_url
-        this.modalContent = [
-        ]
+        this.urlModalContent = element.url
         // cree un container pour un item du carousel
         this.container = createDivWithClass("item")
 
         // cree la partie de l'image pour l'image
         let pictureContainer = createDivWithClass("card__img")
         let img = document.createElement('img')
-        img.setAttribute('src', this.url_image)
-        this.addModal(img)
         pictureContainer.appendChild(img)
         this.container.appendChild(pictureContainer)
 
@@ -86,6 +103,19 @@ class Carousel {
         let titleElement = createDivWithClass("card__title")
         titleElement.innerHTML = this.title
         this.container.appendChild(titleElement)
+
+        // ajout de la fenêtre modal et ajout de l'image
+        img.setAttribute('src', this.url_image)
+        // this.addModal(img, this.urlModalContent)
+        img.addEventListener("click", function (carousel) {
+            console.log(this.urlModalContent)
+            // construction de la modal
+            carousel.buildModal(this.urlModalContent)
+
+            // activation de la modal
+            var modal = document.getElementById("filmSheet")
+            modal.classList.toggle("active")
+        })
 
         return this.container
     }
@@ -169,35 +199,22 @@ class Carousel {
 
     async getModalContent(url) {
         let modalContent = await fetchUrl(url)
-        for (let [key, value] of modalContent) {
-            if (value === None) {
-                value = "unkwown"
+        for (const [key, value] of Object.entries(modalContent)) {
+            if (value === null) {
+                modalContent[key] = "unkwown"
             }
             if (typeof (value) === "array") {
-                value = value.toString()
+                modalContent[key] = modalContent[key].toString()
             }
         }
         return modalContent
     }
 
-    addModal(item, modalContent) {
-        this.modalContent = modalContent
-        item.addEventListener("click", (modalContent) => {
-            //en-tête et image
-            document.getElementsByClassName("modal-title").innerHTML = modalContent.title
-            document.getElementsByClassName("modal-picture").innerHTML = modalContent.image_url
-
-            // table d'info
-            document.getElementById("genres").innerHTML = modalContent["genres"]
-            document.getElementById("date_published").innerHTML = modalContent["date_published"]
-            document.getElementById("avg_vote").innerHTML = modalContent["genres"]
-            document.getElementById("imdb_score").innerHTML = modalContent["imdb_score"]
-            document.getElementById("directors").innerHTML = modalContent["directors"]
-            document.getElementById("actors").innerHTML = modalContent["actors"]
-            document.getElementById("duration").innerHTML = modalContent["duration"] + " min"
-            document.getElementById("countries").innerHTML = modalContent["countries"]
-            document.getElementById("box_office_result").innerHTML = modalContent["worldwide_gross_income"]
-            document.getElementById("long_description").innerHTML = modalContent["long_description"]
+    addModal(item, url) {
+        item.addEventListener("click", function () {
+            console.log(url)
+            // construction de la modal
+            buildModal(url)
 
             // activation de la modal
             var modal = document.getElementById("filmSheet")
@@ -205,6 +222,7 @@ class Carousel {
         })
     }
 }
+
 
 class requestJsonData {
     constructor(filterOption = {}) {
