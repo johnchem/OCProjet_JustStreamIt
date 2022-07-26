@@ -1,4 +1,3 @@
-
 class Carousel {
     /* Structure et element construit à partir du tutoriel de grafikart
     https://grafikart.fr/tutoriels/carrousel-javascript-87
@@ -20,40 +19,43 @@ class Carousel {
      * @param {Boolean} [options.loop=false] doit-on boucler à la fin 
      */
     constructor(element, elementsToDisplay, options = {}) {
-        this.element = element
-        this.elementsToDisplay = elementsToDisplay
-        this.options = Object.assign({}, {
+        let self = this
+        self.element = element
+        self.elementsToDisplay = elementsToDisplay
+        self.options = Object.assign({}, {
             slidesToScroll: 1,
             slidesVisible: 1,
             loop: false
         }, options)
 
         // récupération des éléments du carousel
-        this.children = []
-        for (const i in this.elementsToDisplay) {
-            this.children.push(this.carouselItem(this,
-                this.elementsToDisplay[i]
-            ))
+        self.children = []
+        /*
+        for (const i in self.elementsToDisplay) {
+            self.children.push(
+                self.createCarouselItem(self.elementsToDisplay[i]))
         }
+        */
+        self.elementsToDisplay.forEach((elementsToDisplay) =>
+            self.children.push(self.createCarouselItem(elementsToDisplay)))
 
         //creation du div pour le carousel et le container
-        let ratio = this.children.length / this.options.slidesVisible
-        this.currentItem = 0
-        this.root = createDivWithClass('carousel')
+        let ratio = self.children.length / self.options.slidesVisible
+        self.currentItem = 0
+        self.root = createDivWithClass('carousel')
 
         // creation d'un container pour les elements visible
-        this.container = createDivWithClass('carousel__container')
-        this.container.style.width = (ratio * 100) + "%" // largeur du container pour les éléments visible
+        self.container = createDivWithClass('carousel__container')
+        self.container.style.width = (ratio * 100) + "%" // largeur du container pour les éléments visible
 
         // modification du HTML de la page
-        this.root.appendChild(this.container)
-        this.element.appendChild(this.root)
-        this.moveCallBacks = []
-        this.items = this.children.map((child) => {
+        self.root.appendChild(self.container)
+        self.element.appendChild(self.root)
+        self.moveCallBacks = []
+        self.items = self.children.map(child => {
             let item = createDivWithClass('carousel__item')
-            // this.addModal(item,)
             item.appendChild(child)
-            this.container.appendChild(item)
+            self.container.appendChild(item)
             return item
         })
         this.setStyle()
@@ -61,24 +63,32 @@ class Carousel {
         this.moveCallBacks.forEach(cb => cb(0))
     }
 
-    buildModal(url) {
-        this.modalContent = this.getModalContent(url)
+    /**
+     * construction et activation de la modal
+     * @param {url} url adresse de la page détaillé du film
+     */
+    async buildModal(url) {
+        let modalContent = await this.getModalContent(url)
+        console.log(modalContent)
         //en-tête et image
-        document.getElementsByClassName("modal-title").innerHTML = this.modalContent.title
-        document.getElementsByClassName("modal-picture").innerHTML = this.modalContent.image_url
+        document.getElementsByClassName("modal-title").innerHTML = modalContent["title"]
+        document.getElementsByClassName("modal-picture").src = modalContent["image_url"]
 
         // table d'info
-        document.getElementById("genres").innerHTML = this.modalContent["genres"]
-        document.getElementById("date_published").innerHTML = this.modalContent["date_published"]
-        document.getElementById("avg_vote").innerHTML = this.modalContent["genres"]
-        document.getElementById("imdb_score").innerHTML = this.modalContent["imdb_score"]
-        console.log(modalContent["directors"])
-        document.getElementById("directors").innerHTML = this.modalContent["directors"]
-        document.getElementById("actors").innerHTML = this.modalContent["actors"]
-        document.getElementById("duration").innerHTML = this.modalContent["duration"] + " min"
-        document.getElementById("countries").innerHTML = this.modalContent["countries"]
-        document.getElementById("box_office_result").innerHTML = this.modalContent["worldwide_gross_income"]
-        document.getElementById("long_description").innerHTML = this.modalContent["long_description"]
+        document.getElementById("genres").innerHTML = modalContent["genres"]
+        document.getElementById("date_published").innerHTML = modalContent["date_published"]
+        document.getElementById("avg_vote").innerHTML = modalContent["avg_vote"]
+        document.getElementById("imdb_score").innerHTML = modalContent["imdb_score"]
+        document.getElementById("directors").innerHTML = modalContent["directors"]
+        document.getElementById("actors").innerHTML = modalContent["actors"]
+        document.getElementById("duration").innerHTML = modalContent["duration"] + " min"
+        document.getElementById("countries").innerHTML = modalContent["countries"]
+        document.getElementById("box_office_result").innerHTML = modalContent["worldwide_gross_income"]
+        document.getElementById("long_description").innerHTML = modalContent["long_description"]
+
+        // activation de la modal
+        let modal = document.getElementById("filmSheet")
+        modal.classList.toggle("active")
     }
 
     /**
@@ -86,38 +96,35 @@ class Carousel {
      * @param {string} url_image url pour la mignature de image
      * @returns {HTMLElement}
      */
-    carouselItem(carousel, element) {
-        this.title = element.title
-        this.url_image = element.image_url
-        this.urlModalContent = element.url
+
+    createCarouselItem(element) {
+        let self = this
+        let title = element.title
+        let url_image = element.image_url
+        let urlModalContent = element.url
+
         // cree un container pour un item du carousel
-        this.container = createDivWithClass("item")
+        let container = createDivWithClass("item")
 
         // cree la partie de l'image pour l'image
         let pictureContainer = createDivWithClass("card__img")
         let img = document.createElement('img')
         pictureContainer.appendChild(img)
-        this.container.appendChild(pictureContainer)
+        container.appendChild(pictureContainer)
 
         // cree la partie pour le titre
         let titleElement = createDivWithClass("card__title")
-        titleElement.innerHTML = this.title
-        this.container.appendChild(titleElement)
+        titleElement.innerHTML = title
+        container.appendChild(titleElement)
 
         // ajout de la fenêtre modal et ajout de l'image
-        img.setAttribute('src', this.url_image)
-        // this.addModal(img, this.urlModalContent)
-        img.addEventListener("click", function (carousel) {
-            console.log(this.urlModalContent)
-            // construction de la modal
-            carousel.buildModal(this.urlModalContent)
+        img.setAttribute('src', url_image)
+        img.addEventListener("click", (() => {
+            this.buildModal(urlModalContent)
+            console.log(element)
+        })(element), false)
 
-            // activation de la modal
-            var modal = document.getElementById("filmSheet")
-            modal.classList.toggle("active")
-        })
-
-        return this.container
+        return container
     }
 
     setStyle() {
@@ -210,7 +217,7 @@ class Carousel {
         return modalContent
     }
 
-    addModal(item, url) {
+    /*addModal(item, url) {
         item.addEventListener("click", function () {
             console.log(url)
             // construction de la modal
@@ -220,7 +227,7 @@ class Carousel {
             var modal = document.getElementById("filmSheet")
             modal.classList.toggle("active")
         })
-    }
+    }*/
 }
 
 
@@ -329,7 +336,7 @@ function createDivWithClass(className) {
  * @return {carousel} 
 */
 function initCarousel(element, data) {
-    var carousel = new Carousel(element,
+    let carousel = new Carousel(element,
         data,
         {
             slidesToScroll: 1,
@@ -364,20 +371,20 @@ var modal = document.getElementById("filmSheet");
 // récupérer le bouton fermer de la modale
 var modal_button = document.getElementsByClassName("close_button")[0];
 
-// ferme la fenêtre quand l'utilisateur clique sur le boutton
+// ferme la fenêtre quand l'utilisateur clique sur la croix rouge
 modal_button.onclick = function () {
     modal.classList.toggle("active")
     console.log("modale close")
 }
 
 // ferme la fenpetre quand l'utilisateur clique partout ailleurs
-window.onclick = function (event) {
+window.addEventListener("click", function (event) {
     if (event.target == modal) {
         modal.classList.toggle("active")
         console.log("modale close")
     }
-}
-
+})
+debugger
 /**
  * carousel Best Movies
  */
@@ -386,6 +393,8 @@ requestCarouselBestMovies.orderBy("imdb_score", true)
 
 requestCarouselBestMovies.fetchData(10).then((response) => {
     let carouselElementBestMovies = document.querySelector("#bestScoredMovie")
+    initCarousel(carouselElementBestMovies, response.results, requestCarouselBestMovies)
+    /*
     if (document.readyState !== 'loading') {
         initCarousel(carouselElementBestMovies, response.results, requestCarouselBestMovies)
     } else {
@@ -393,8 +402,10 @@ requestCarouselBestMovies.fetchData(10).then((response) => {
             initCarousel(carouselElementBestMovies, response.results, requestCarouselBestMovies)
         })
     }
+    */
 })
 
+debugger
 /**
  * 1st carousel
  */
@@ -405,16 +416,19 @@ requestCarousel_1.orderBy("imdb_score", true)
 
 requestCarousel_1.fetchData(10).then((responseCar_1) => {
     let carouselElement_1 = document.querySelector("#carousel_cat_1")
-
-    if (document.readyState !== 'loading') {
+    initCarousel(carouselElement_1, responseCar_1.results)
+    /*if (document.readyState !== 'loading') {
         initCarousel(carouselElement_1, responseCar_1.results)
     } else {
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function (event) {
             initCarousel(carouselElement_1, responseCar_1.results)
+            event.stopPropagation()
         })
     }
+    */
 })
 
+debugger
 /**
  *  2nd carousel
  */
@@ -425,13 +439,17 @@ requestCarousel_2.orderBy("imdb_score", true)
 
 requestCarousel_2.fetchData(10).then((responseCar_2) => {
     let carouselElement_2 = document.querySelector("#carousel_cat_2")
+    initCarousel(carouselElement_2, responseCar_2.results)
+    /*
     if (document.readyState !== 'loading') {
         initCarousel(carouselElement_2, responseCar_2.results)
     } else {
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function (event) {
             initCarousel(carouselElement_2, responseCar_2.results)
+            event.stopPropagation()
         })
     }
+    */
 })
 
 /**
@@ -444,16 +462,21 @@ requestCarousel_3.orderBy("imdb_score", true)
 
 requestCarousel_3.fetchData(10).then((responseCar_3) => {
     let carouselElement_3 = document.querySelector("#carousel_cat_3")
-
+    initCarousel(carouselElement_3, responseCar_3.results)
+    /*
     if (document.readyState !== 'loading') {
         initCarousel(carouselElement_3, responseCar_3.results)
     } else {
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function (event) {
             initCarousel(carouselElement_3, responseCar_3.results)
+            event.stopPropagation()
         })
     }
+    */
 })
 
+debugger
+/*
 let request = new requestJsonData({
     year: "1988"
 })
@@ -462,6 +485,6 @@ var itemCarouselList = Array.from(document.getElementsByClassName("card__img"))
 console.log(itemCarouselList)
 itemCarouselList.forEach(element => addModal(element))
 
-
 let myHeading = document.querySelector('h1')
 myHeading.textContent = 'JustStreamIt'
+*/
