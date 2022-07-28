@@ -30,12 +30,6 @@ class Carousel {
 
         // récupération des éléments du carousel
         self.children = []
-        /*
-        for (const i in self.elementsToDisplay) {
-            self.children.push(
-                self.createCarouselItem(self.elementsToDisplay[i]))
-        }
-        */
         self.elementsToDisplay.forEach((elementsToDisplay) =>
             self.children.push(self.createCarouselItem(elementsToDisplay)))
 
@@ -69,26 +63,80 @@ class Carousel {
      */
     async buildModal(url) {
         let modalContent = await this.getModalContent(url)
-        console.log(modalContent)
-        //en-tête et image
-        document.getElementsByClassName("modal-title").innerHTML = modalContent["title"]
-        document.getElementsByClassName("modal-picture").src = modalContent["image_url"]
 
-        // table d'info
-        document.getElementById("genres").innerHTML = modalContent["genres"]
-        document.getElementById("date_published").innerHTML = modalContent["date_published"]
-        document.getElementById("avg_vote").innerHTML = modalContent["avg_vote"]
-        document.getElementById("imdb_score").innerHTML = modalContent["imdb_score"]
-        document.getElementById("directors").innerHTML = modalContent["directors"]
-        document.getElementById("actors").innerHTML = modalContent["actors"]
-        document.getElementById("duration").innerHTML = modalContent["duration"] + " min"
-        document.getElementById("countries").innerHTML = modalContent["countries"]
-        document.getElementById("box_office_result").innerHTML = modalContent["worldwide_gross_income"]
-        document.getElementById("long_description").innerHTML = modalContent["long_description"]
+        //  blocs de la structures
+        let header = createDivWithClass("modal-header")
+        let body = createDivWithClass("modal-body")
+        let footer = createDivWithClass("modal-footer")
 
-        // activation de la modal
-        let modal = document.getElementById("filmSheet")
-        modal.classList.toggle("active")
+        // titre et bouton fermeture
+        let title = createDivWithClassAndContent("modale-title", modalContent["title"])
+        let close_button = document.createElement("button")
+        close_button.setAttribute("class", "modal-button close_button")
+        header.appendChild(title)
+        header.appendChild(close_button)
+
+        // image et bouton lecture
+        let picture = document.createElement("img")
+        picture.setAttribute("src", modalContent["image_url"])
+        picture.setAttribute("class", "modal-picture")
+
+        let play_button = document.createElement("button")
+        play_button.setAttribute("class", "modal-button play_button")
+        let play_button_text = document.createElement("div")
+        play_button_text.innerHTML = "Lecture"
+
+        body.appendChild(picture)
+        play_button.appendChild(play_button_text)
+        body.appendChild(play_button)
+
+        // creation des elements pour la table
+        let genre_content = createDivWithClassAndContent("modal-champs title", "Genre : ")
+        let genre_title = createDivWithClassAndContent("modal-champs info", modalContent["genres"])
+
+        let date_published_content = createDivWithClassAndContent("modal-champs title", "Date de sortie : ")
+        let date_published_title = createDivWithClassAndContent("modal-champs info", modalContent["date_published"])
+
+        let avg_score_content = createDivWithClassAndContent("modal-champs title", "Score : ")
+        let avg_score_title = createDivWithClassAndContent("modal-champs info", modalContent["avg_vote"])
+
+        let imdb_score_content = createDivWithClassAndContent("modal-champs title", "Imdb : ")
+        let imdb_score_title = createDivWithClassAndContent("modal-champs info", modalContent["imdb_score"])
+
+        let directors_content = createDivWithClassAndContent("modal-champs title", "Réalisé par : ")
+        let directors_title = createDivWithClassAndContent("modal-champs info", modalContent["directors"])
+
+        let actors_content = createDivWithClassAndContent("modal-champs title", "Acteurs : ")
+        let actors_title = createDivWithClassAndContent("modal-champs info", modalContent["actors"])
+
+        let duration_content = createDivWithClassAndContent("modal-champs title", "Durée : ")
+        let duration_title = createDivWithClassAndContent("modal-champs info", modalContent["duration"] + " min")
+
+        let countries_content = createDivWithClassAndContent("modal-champs title", "Origine : ")
+        let countries_title = createDivWithClassAndContent("modal-champs info", modalContent["countries"])
+
+        let box_office_result_content = createDivWithClassAndContent("modal-champs title", "Résultats au Box Office : ")
+        let box_office_result_title = createDivWithClassAndContent("modal-champs info", modalContent["worldwide_gross_income"])
+
+        // ajout des elements à la table
+        let table_content = [
+            [genre_content, genre_title],
+            [date_published_content, date_published_title],
+            [avg_score_content, avg_score_title],
+            [imdb_score_content, imdb_score_title],
+            [directors_content, directors_title],
+            [actors_content, actors_title],
+            [duration_content, duration_title],
+            [countries_content, countries_title],
+            [box_office_result_content, box_office_result_title]
+        ]
+        let table = createTable(table_content)
+        body.appendChild(table)
+
+        // description du film
+        let long_description = createDivWithClassAndContent("modal-champs info", modalContent["long_description"])
+        body.appendChild(long_description)
+        return [header, body, footer]
     }
 
     /**
@@ -119,10 +167,20 @@ class Carousel {
 
         // ajout de la fenêtre modal et ajout de l'image
         img.setAttribute('src', url_image)
-        img.addEventListener("click", (() => {
-            this.buildModal(urlModalContent)
-            console.log(element)
-        })(element), false)
+        var modal_construct = Array(this.buildModal(urlModalContent))
+        console.log(modal_construct)
+        img.addEventListener("click", () => {
+            // contruction de la modal
+            let modal = document.getElementById("filmSheet")
+            debugger
+            for (let j = 0; j < 3; j++) {
+                var modal_substructure = modal_construct[j]
+                modal.appendChild(modal_substructure)
+            }
+
+            // activation de la modal
+            modal.classList.toggle("active")
+        }, false)
 
         return container
     }
@@ -222,7 +280,7 @@ class Carousel {
             console.log(url)
             // construction de la modal
             buildModal(url)
-
+ 
             // activation de la modal
             var modal = document.getElementById("filmSheet")
             modal.classList.toggle("active")
@@ -329,6 +387,37 @@ function createDivWithClass(className) {
     return div
 }
 
+/**
+* @param {string} className classe du div
+* @param {string} content contenu du champs HTML
+* @returns {HTMLElement} 
+*/
+function createDivWithClassAndContent(className, content) {
+    let div = document.createElement('div')
+    div.setAttribute('class', className)
+    div.innerHTML = content
+    return div
+}
+
+/**
+ * @param {Array[HTMLElement]} content Array de dimensions 2 pour la creation d'une table
+ * @return {HTMLElement}
+ */
+function createTable(content) {
+    let table = document.createElement("table")
+    for (let x = 0; x < content.length; x++) {
+        let row = document.createElement("tr")
+        for (let y = 0; y < content[x].length; y++) {
+            let column = document.createElement("td")
+            column.appendChild(content[x][y])
+            row.appendChild(column)
+        }
+        table.appendChild(row)
+    }
+    return table
+}
+
+
 /** 
  * fonction pour l'initialisation des carousels
  * @param {HTMLElement} element element de carousel
@@ -368,14 +457,19 @@ async function fetchUrl(url) {
 // récupération de la fenêtre modal
 var modal = document.getElementById("filmSheet");
 
+
 // récupérer le bouton fermer de la modale
 var modal_button = document.getElementsByClassName("close_button")[0];
 
 // ferme la fenêtre quand l'utilisateur clique sur la croix rouge
-modal_button.onclick = function () {
-    modal.classList.toggle("active")
-    console.log("modale close")
+debugger
+if (modal_button !== undefined) {
+    modal_button.onclick = function () {
+        modal.classList.toggle("active")
+        console.log("modale close")
+    }
 }
+
 
 // ferme la fenpetre quand l'utilisateur clique partout ailleurs
 window.addEventListener("click", function (event) {
@@ -384,7 +478,8 @@ window.addEventListener("click", function (event) {
         console.log("modale close")
     }
 })
-debugger
+
+// debugger
 /**
  * carousel Best Movies
  */
@@ -405,7 +500,7 @@ requestCarouselBestMovies.fetchData(10).then((response) => {
     */
 })
 
-debugger
+// debugger
 /**
  * 1st carousel
  */
@@ -428,7 +523,7 @@ requestCarousel_1.fetchData(10).then((responseCar_1) => {
     */
 })
 
-debugger
+// debugger
 /**
  *  2nd carousel
  */
@@ -475,7 +570,7 @@ requestCarousel_3.fetchData(10).then((responseCar_3) => {
     */
 })
 
-debugger
+// debugger
 /*
 let request = new requestJsonData({
     year: "1988"
