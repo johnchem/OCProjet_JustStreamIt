@@ -275,7 +275,7 @@ modal box
     background-color: rgba(0, 0, 0, 0.4);
 }
 
-.modal-container {
+.modal_container {
     position: inherit;
     top: 50%;
     left: 50%;
@@ -291,13 +291,15 @@ modal box
 modal header
 */
 
-.modal-header {
+.modal_header {
     position: inherit;
     top: 0px;
 }
 
-.modal-title {
+.modal_title {
     margin: 10px 10px 10px 10px;
+    font-size: 1.6em;
+    font-weight: bolder;
 }
 
 .close_button {
@@ -325,7 +327,7 @@ modal header
 modal footer
 */
 
-.modal-footer {
+.modal_footer {
     position: inherit;
 }
 
@@ -333,43 +335,43 @@ modal footer
 modal body
 */
 
-.modal-body {
+.modal_body {
     margin-top: 40px;
     display: grid;
     grid-template: "pic table""pic play""descrip descrip";
     grid-gap: 5px;
 }
 
-.modal-table {
+.modal_table {
     justify-content: center;
     grid-area: table;
     margin: 5px;
 }
 
-.modal-table td {
+.modal_table td {
     padding: 0px;
 
 }
 
-.modal-button.play_button {
+.modal_button.play_button {
     grid-area: play;
     margin: auto auto auto 1px;
     justify-content: right;
 }
 
-.modal-champs {
+.modal_champs {
     text-align: justify;
     margin: 5px;
     grid-area: descrip;
 }
 
-.modal-champs.titre {
+.modal_champs.titre {
     margin: 2px;
     text-align: left;
     font-weight: bold;
 }
 
-.modal-picture {
+.modal_picture {
     grid-area: pic;
     margin: 0px auto 0px auto;
     padding: 5px;

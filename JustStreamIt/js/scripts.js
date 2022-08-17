@@ -62,27 +62,31 @@ class Carousel {
      * @param {url} url adresse de la page détaillé du film
      */
     async buildModal(url) {
-        let modalContent = await this.getModalContent(url)
+        var modalContent = await this.getModalContent(url)
 
         //  blocs de la structures
-        let header = createDivWithClass("modal-header")
-        let body = createDivWithClass("modal-body")
-        let footer = createDivWithClass("modal-footer")
+        let header = createDivWithClass("modal_header")
+        let body = createDivWithClass("modal_body")
+        let footer = createDivWithClass("modal_footer")
 
         // titre et bouton fermeture
-        let title = createDivWithClassAndContent("modale-title", modalContent["title"])
+        let title = createDivWithClassAndContent("modal_title", modalContent["title"])
         let close_button = document.createElement("button")
-        close_button.setAttribute("class", "modal-button close_button")
+        close_button.setAttribute("class", "modal_button close_button")
+        close_button.onclick = function () { // ferme la fenêtre quand l'utilisateur clique sur la croix rouge
+            close_modal("filmSheet")
+            console.log("modal close")
+        }
         header.appendChild(title)
         header.appendChild(close_button)
 
         // image et bouton lecture
         let picture = document.createElement("img")
         picture.setAttribute("src", modalContent["image_url"])
-        picture.setAttribute("class", "modal-picture")
+        picture.setAttribute("class", "modal_picture")
 
         let play_button = document.createElement("button")
-        play_button.setAttribute("class", "modal-button play_button")
+        play_button.setAttribute("class", "modal_button play_button")
         let play_button_text = document.createElement("div")
         play_button_text.innerHTML = "Lecture"
 
@@ -91,50 +95,51 @@ class Carousel {
         body.appendChild(play_button)
 
         // creation des elements pour la table
-        let genre_content = createDivWithClassAndContent("modal-champs title", "Genre : ")
-        let genre_title = createDivWithClassAndContent("modal-champs info", modalContent["genres"])
+        let genre_title = createDivWithClassAndContent("modal_champs title", "Genre : ")
+        let genre_content = createDivWithClassAndContent("modal_champs info", modalContent["genres"].join(", "))
 
-        let date_published_content = createDivWithClassAndContent("modal-champs title", "Date de sortie : ")
-        let date_published_title = createDivWithClassAndContent("modal-champs info", modalContent["date_published"])
+        let date_published_title = createDivWithClassAndContent("modal_champs title", "Date de sortie : ")
+        let date_published_formatted = await formatDate(modalContent["date_published"])
+        let date_published_content = createDivWithClassAndContent("modal_champs info", date_published_formatted)
 
-        let avg_score_content = createDivWithClassAndContent("modal-champs title", "Score : ")
-        let avg_score_title = createDivWithClassAndContent("modal-champs info", modalContent["avg_vote"])
+        let avg_score_title = createDivWithClassAndContent("modal_champs title", "Score : ")
+        let avg_score_content = createDivWithClassAndContent("modal_champs info", modalContent["avg_vote"])
 
-        let imdb_score_content = createDivWithClassAndContent("modal-champs title", "Imdb : ")
-        let imdb_score_title = createDivWithClassAndContent("modal-champs info", modalContent["imdb_score"])
+        let imdb_score_title = createDivWithClassAndContent("modal_champs title", "Imdb : ")
+        let imdb_score_content = createDivWithClassAndContent("modal_champs info", modalContent["imdb_score"])
 
-        let directors_content = createDivWithClassAndContent("modal-champs title", "Réalisé par : ")
-        let directors_title = createDivWithClassAndContent("modal-champs info", modalContent["directors"])
+        let directors_title = createDivWithClassAndContent("modal_champs title", "Réalisé par : ")
+        let directors_content = createDivWithClassAndContent("modal_champs info", modalContent["directors"].join(", "))
 
-        let actors_content = createDivWithClassAndContent("modal-champs title", "Acteurs : ")
-        let actors_title = createDivWithClassAndContent("modal-champs info", modalContent["actors"])
+        let actors_title = createDivWithClassAndContent("modal_champs title", "Acteurs : ")
+        let actors_content = createDivWithClassAndContent("modal_champs info", modalContent["actors"].join(", "))
 
-        let duration_content = createDivWithClassAndContent("modal-champs title", "Durée : ")
-        let duration_title = createDivWithClassAndContent("modal-champs info", modalContent["duration"] + " min")
+        let duration_title = createDivWithClassAndContent("modal_champs title", "Durée : ")
+        let duration_content = createDivWithClassAndContent("modal_champs info", modalContent["duration"] + " min")
 
-        let countries_content = createDivWithClassAndContent("modal-champs title", "Origine : ")
-        let countries_title = createDivWithClassAndContent("modal-champs info", modalContent["countries"])
+        let countries_title = createDivWithClassAndContent("modal_champs title", "Origine : ")
+        let countries_content = createDivWithClassAndContent("modal_champs info", modalContent["countries"].join(", "))
 
-        let box_office_result_content = createDivWithClassAndContent("modal-champs title", "Résultats au Box Office : ")
-        let box_office_result_title = createDivWithClassAndContent("modal-champs info", modalContent["worldwide_gross_income"])
+        let box_office_result_title = createDivWithClassAndContent("modal_champs title", "Résultats au Box Office : ")
+        let box_office_result_content = createDivWithClassAndContent("modal_champs info", modalContent["worldwide_gross_income"])
 
         // ajout des elements à la table
         let table_content = [
-            [genre_content, genre_title],
-            [date_published_content, date_published_title],
-            [avg_score_content, avg_score_title],
-            [imdb_score_content, imdb_score_title],
-            [directors_content, directors_title],
-            [actors_content, actors_title],
-            [duration_content, duration_title],
-            [countries_content, countries_title],
-            [box_office_result_content, box_office_result_title]
+            [genre_title, genre_content],
+            [date_published_title, date_published_content],
+            [avg_score_title, avg_score_content],
+            [imdb_score_title, imdb_score_content],
+            [directors_title, directors_content],
+            [actors_title, actors_content],
+            [duration_title, duration_content],
+            [countries_title, countries_content],
+            [box_office_result_title, box_office_result_content]
         ]
         let table = createTable(table_content)
         body.appendChild(table)
 
         // description du film
-        let long_description = createDivWithClassAndContent("modal-champs info", modalContent["long_description"])
+        let long_description = createDivWithClassAndContent("modal_champs info", modalContent["long_description"])
         body.appendChild(long_description)
         return [header, body, footer]
     }
@@ -167,20 +172,22 @@ class Carousel {
 
         // ajout de la fenêtre modal et ajout de l'image
         img.setAttribute('src', url_image)
-        var modal_construct = Array(this.buildModal(urlModalContent))
-        console.log(modal_construct)
-        img.addEventListener("click", () => {
-            // contruction de la modal
-            let modal = document.getElementById("filmSheet")
-            debugger
-            for (let j = 0; j < 3; j++) {
-                var modal_substructure = modal_construct[j]
-                modal.appendChild(modal_substructure)
-            }
 
-            // activation de la modal
-            modal.classList.toggle("active")
-        }, false)
+        this.buildModal(urlModalContent).then(response => {
+            var modal_construct = response
+
+            img.addEventListener("click", () => {
+                // contruction de la modal
+                let modal = document.getElementById("filmSheet")
+                let modal_container = modal.querySelector(".modal_container")
+                for (let j = 0; j < 3; j++) {
+                    modal_container.appendChild(modal_construct[j])
+                }
+
+                // activation de la modal
+                modal.classList.toggle("active")
+            }, false)
+        })
 
         return container
     }
@@ -263,7 +270,8 @@ class Carousel {
     }
 
     async getModalContent(url) {
-        let modalContent = await fetchUrl(url)
+        var modalContent = await fetchUrl(url)
+
         for (const [key, value] of Object.entries(modalContent)) {
             if (value === null) {
                 modalContent[key] = "unkwown"
@@ -287,7 +295,6 @@ class Carousel {
         })
     }*/
 }
-
 
 class requestJsonData {
     constructor(filterOption = {}) {
@@ -364,17 +371,67 @@ class requestDataFromUrl {
     }
 
     async fetchData(nb_results = 5) {
-        let tmpData = await this.fetch()
-        let data = tmpData
-        let maxItem = tmpData.count
+        let data = await this.fetch()
+        let maxItem = data.count
         while ((data.results.length < nb_results) && (data.results.length < maxItem)) {
-            tmpData = await this.fetch(tmpData.next)
+            let tmpData = await this.fetch(tmpData.next)
             data.next = tmpData.next
             tmpData.results.forEach(value => data.results.push(value))
         }
         return data
     }
+}
 
+/**
+ * revoie une liste contenant l'ensemble des films ayant le meilleur score imdb dans la categorie specifie
+ * @Param {string} genre selection des film avec le meilleur score selon imdb filtre par genres
+ * @return {list} liste des films avec le meilleur score imdb  
+ */
+async function getTopImdbScore(genre) {
+    let request = new requestJsonData({
+        genre: genre,
+        sort_by: "-imdb_score"
+    })
+    let tmpData = await request.fetchData()
+    let bestScore = tmpData.results[0]
+
+    let topRankedFilmCollected = false
+    while (topRankedFilmCollected === false) {
+        let nextPageUrl = tmpData.next
+        tmpData.results.forEach(element => data.push(element))
+        console.log(tmpData.results)
+        if (tmpData.results[tmpData.results.length].imdb_score === bestScore) {
+            let nextPageRequest = new requestDataFromUrl(nextPageUrl)
+            tmpData = await nextPageRequest.fetch()
+        } else {
+            topRankedFilmCollected = true
+        }
+    }
+
+    for (var i = data.results.length; i > 0; i--) {
+        if (data.results[i].imdb_score !== bestScore) {
+            delete data.results[i]
+        }
+    }
+
+    return data
+}
+
+/**
+ * renvoie le meilleur film selon imdb et le publique
+ * @param {string} genre meilleur film selon par catégorie
+ * @return {object} fiche du meilleur film
+ */
+function getBestToAllMovie(genre) {
+    let topImdbScore = getTopImdbScore(genre).then(result => { return result })
+    topImdbScore.forEach(element => {
+        elementDetailedPage = new requestDataFromUrl(element.url)
+        element = elementDetailedPage.then(result => result)
+    })
+
+    topImdbScore.sort((a, b) => a.avg_vote - b.avr_vote)
+
+    return topImdbScore[0]
 }
 
 /**
@@ -454,32 +511,55 @@ async function fetchUrl(url) {
     return data
 }
 
+function close_modal(id_modal) {
+    var modal = document.getElementById(id_modal)
+    var modal_container = modal.querySelector(".modal_container")
+    // retire les éléments de l'ancienne fenêtre modal
+    while (modal_container.firstChild) {
+        modal_container.removeChild(modal_container.firstChild);
+    }
+    // passe la fenêtre en masqué
+    modal.classList.toggle("active")
+}
+/**
+ * 
+ * @param {string} str_date date au format YYYY-MM-DD
+ * @returns {string} date au format DD/MM/YYYY
+ */
+async function formatDate(input_date) {
+    const year = input_date.split("-")[0]
+    const month = input_date.split("-")[1]
+    const day = input_date.split("-")[2]
+    const d = new Date(year, month, day)
+
+    const str_date = ('0' + d.getDate()).slice(-2)
+    const str_month = ('0' + (d.getMonth() + 1)).slice(-2)
+    const str_year = d.getFullYear()
+    const output_date = `${str_date}/${str_month}/${str_year}`
+    return output_date
+}
+
 // récupération de la fenêtre modal
 var modal = document.getElementById("filmSheet");
 
-
-// récupérer le bouton fermer de la modale
-var modal_button = document.getElementsByClassName("close_button")[0];
-
-// ferme la fenêtre quand l'utilisateur clique sur la croix rouge
-debugger
-if (modal_button !== undefined) {
-    modal_button.onclick = function () {
-        modal.classList.toggle("active")
-        console.log("modale close")
-    }
-}
-
-
-// ferme la fenpetre quand l'utilisateur clique partout ailleurs
+// ferme la fenetre quand l'utilisateur clique partout ailleurs
 window.addEventListener("click", function (event) {
     if (event.target == modal) {
-        modal.classList.toggle("active")
-        console.log("modale close")
+        close_modal("filmSheet")
+        //modal.classList.toggle("active")
+        console.log("modal close")
     }
 })
 
-// debugger
+/**
+ * Best Movie 
+ */
+bestMovieData = getBestToAllMovie()
+let bestMovieElement = document.getElementById("bestMovie")
+bestMovieElement.querySelector(".title").innerHTML = bestMovieData.title
+bestMovieElement.querySelector("img").src = image_url
+bestMovieElement.querySelector(".long_description") = bestMovieData.long_description
+
 /**
  * carousel Best Movies
  */
@@ -489,18 +569,9 @@ requestCarouselBestMovies.orderBy("imdb_score", true)
 requestCarouselBestMovies.fetchData(10).then((response) => {
     let carouselElementBestMovies = document.querySelector("#bestScoredMovie")
     initCarousel(carouselElementBestMovies, response.results, requestCarouselBestMovies)
-    /*
-    if (document.readyState !== 'loading') {
-        initCarousel(carouselElementBestMovies, response.results, requestCarouselBestMovies)
-    } else {
-        document.addEventListener("DOMContentLoaded", function () {
-            initCarousel(carouselElementBestMovies, response.results, requestCarouselBestMovies)
-        })
-    }
-    */
+    carouselElementBestMovies.querySelector(".categorie__title").innerHTML = "Films les mieux notés"
 })
 
-// debugger
 /**
  * 1st carousel
  */
@@ -512,6 +583,7 @@ requestCarousel_1.orderBy("imdb_score", true)
 requestCarousel_1.fetchData(10).then((responseCar_1) => {
     let carouselElement_1 = document.querySelector("#carousel_cat_1")
     initCarousel(carouselElement_1, responseCar_1.results)
+    carouselElement_1.querySelector(".categorie__title").innerHTML = "Comedy"
     /*if (document.readyState !== 'loading') {
         initCarousel(carouselElement_1, responseCar_1.results)
     } else {
@@ -523,7 +595,6 @@ requestCarousel_1.fetchData(10).then((responseCar_1) => {
     */
 })
 
-// debugger
 /**
  *  2nd carousel
  */
@@ -535,16 +606,7 @@ requestCarousel_2.orderBy("imdb_score", true)
 requestCarousel_2.fetchData(10).then((responseCar_2) => {
     let carouselElement_2 = document.querySelector("#carousel_cat_2")
     initCarousel(carouselElement_2, responseCar_2.results)
-    /*
-    if (document.readyState !== 'loading') {
-        initCarousel(carouselElement_2, responseCar_2.results)
-    } else {
-        document.addEventListener("DOMContentLoaded", function (event) {
-            initCarousel(carouselElement_2, responseCar_2.results)
-            event.stopPropagation()
-        })
-    }
-    */
+    carouselElement_2.querySelector(".categorie__title").innerHTML = "News"
 })
 
 /**
@@ -558,28 +620,5 @@ requestCarousel_3.orderBy("imdb_score", true)
 requestCarousel_3.fetchData(10).then((responseCar_3) => {
     let carouselElement_3 = document.querySelector("#carousel_cat_3")
     initCarousel(carouselElement_3, responseCar_3.results)
-    /*
-    if (document.readyState !== 'loading') {
-        initCarousel(carouselElement_3, responseCar_3.results)
-    } else {
-        document.addEventListener("DOMContentLoaded", function (event) {
-            initCarousel(carouselElement_3, responseCar_3.results)
-            event.stopPropagation()
-        })
-    }
-    */
+    carouselElement_3.querySelector(".categorie__title").innerHTML = "Fantasy"
 })
-
-// debugger
-/*
-let request = new requestJsonData({
-    year: "1988"
-})
-
-var itemCarouselList = Array.from(document.getElementsByClassName("card__img"))
-console.log(itemCarouselList)
-itemCarouselList.forEach(element => addModal(element))
-
-let myHeading = document.querySelector('h1')
-myHeading.textContent = 'JustStreamIt'
-*/
