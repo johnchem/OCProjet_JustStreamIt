@@ -369,17 +369,6 @@ class requestDataFromUrl {
         let data = await response.json()
         return data
     }
-
-    async fetchData(nb_results = 5) {
-        let data = await this.fetch()
-        let maxItem = data.count
-        while ((data.results.length < nb_results) && (data.results.length < maxItem)) {
-            let tmpData = await this.fetch(tmpData.next)
-            data.next = tmpData.next
-            tmpData.results.forEach(value => data.results.push(value))
-        }
-        return data
-    }
 }
 
 /**
@@ -424,20 +413,48 @@ async function getTopImdbScore(genre = "") {
  * @param {string} genre meilleur film selon par catégorie
  * @return {object} fiche du meilleur film
  */
+/*
 async function getBestToAllMovie(genre = "") {
     let topImdbScore = await getTopImdbScore(genre)
-
-    /*var test = replaceBasicByDetailledFilmInfo(topImdbScore)
-*/
+    console.log("get best movie")
+ 
     topImdbScore.forEach(async (element, index) => {
         let elementDetailedPageRequest = new requestDataFromUrl(element.url)
+        console.log("boucle forEach")
         topImdbScore[index] = await elementDetailedPageRequest.fetch()
     })
-
-    topImdbScore.sort((a, b) => a.avg_vote - b.avr_vote)
+    console.log("sortie get best movie")
+    topImdbScore.sort((a, b) => a["avg_vote"] - b["avg_vote"])
     console.log(topImdbScore)
     return topImdbScore[0]
 }
+*/
+
+async function getBestToAllMovie(genre = "") {
+    let topImdbScore = getTopImdbScore(genre)
+
+    let truc = topImdbScore.then((response) => {
+        console.log("get best movie")
+
+        var test = []
+        response.forEach((element, index) => {
+            console.log(index)
+            console.log(element)
+            let elementDetailedPageRequest = new requestDataFromUrl(element["url"])
+            console.log("boucle forEach")
+            elementDetailedPageRequest.fetch().then(info => {
+                console.log("test loop")
+                console.log(test)
+                test[index] = info
+            })
+        })
+        console.log("sortie get best movie")
+        test.sort((a, b) => a["avg_vote"] - b["avg_vote"])
+        console.log(test)
+    })
+    return truc[0]
+}
+
 
 /**
  * @param {array} inputList
@@ -570,13 +587,21 @@ window.addEventListener("click", function (event) {
 /**
  * Best Movie 
  */
-let bestMovieData = getBestToAllMovie().then(response => {
-    let bestMovieElement = document.getElementById("bestMovie")
-    console.log(response)
-    bestMovieElement.querySelector(".title").innerHTML = response.title
-    bestMovieElement.querySelector("img").src = response.image_url
-    bestMovieElement.querySelector(".long_description").innerHTML = response.long_description
+getBestToAllMovie().then((bestMovie) => {
+    console.log("best movie")
+    console.log(bestMovie)
+    let bestMovieRequest = new requestDataFromUrl(bestMovie.url)
+    let bestMovieData = bestMovieRequest.fetch()
+    console.log(bestMovieData)
+    bestMovieData.then((response) => {
+        let bestMovieElement = document.getElementById("bestMovie")
+        console.log(response)
+        bestMovieElement.querySelector(".title").innerHTML = response.title
+        bestMovieElement.querySelector("img").src = response.image_url
+        bestMovieElement.querySelector(".long_description").innerHTML = response.long_description
+    })
 })
+
 
 
 /**
