@@ -365,7 +365,7 @@ class requestDataFromUrl {
     }
 
     async fetch() {
-        let response = await fetch(url)
+        let response = await fetch(this.url)
         let data = await response.json()
         return data
     }
@@ -387,20 +387,22 @@ class requestDataFromUrl {
  * @Param {string} genre selection des film avec le meilleur score selon imdb filtre par genres
  * @return {list} liste des films avec le meilleur score imdb  
  */
-async function getTopImdbScore(genre) {
+async function getTopImdbScore(genre = "") {
     let request = new requestJsonData({
         genre: genre,
         sort_by: "-imdb_score"
     })
     let tmpData = await request.fetchData()
-    let bestScore = tmpData.results[0]
+
+    let data = []
+    let bestScore = tmpData.results[0]["imdb_score"]
 
     let topRankedFilmCollected = false
     while (topRankedFilmCollected === false) {
         let nextPageUrl = tmpData.next
         tmpData.results.forEach(element => data.push(element))
-        console.log(tmpData.results)
-        if (tmpData.results[tmpData.results.length].imdb_score === bestScore) {
+
+        if (tmpData.results[tmpData.results.length - 1]["imdb_score"] === bestScore) {
             let nextPageRequest = new requestDataFromUrl(nextPageUrl)
             tmpData = await nextPageRequest.fetch()
         } else {
@@ -408,9 +410,9 @@ async function getTopImdbScore(genre) {
         }
     }
 
-    for (var i = data.results.length; i > 0; i--) {
-        if (data.results[i].imdb_score !== bestScore) {
-            delete data.results[i]
+    for (var i = data.length - 1; i > 0; i--) {
+        if (data[i]["imdb_score"] !== bestScore) {
+            delete data[i]
         }
     }
 
@@ -422,16 +424,31 @@ async function getTopImdbScore(genre) {
  * @param {string} genre meilleur film selon par catégorie
  * @return {object} fiche du meilleur film
  */
-function getBestToAllMovie(genre) {
-    let topImdbScore = getTopImdbScore(genre).then(result => { return result })
-    topImdbScore.forEach(element => {
-        elementDetailedPage = new requestDataFromUrl(element.url)
-        element = elementDetailedPage.then(result => result)
+async function getBestToAllMovie(genre = "") {
+    let topImdbScore = await getTopImdbScore(genre)
+
+    /*var test = replaceBasicByDetailledFilmInfo(topImdbScore)
+*/
+    topImdbScore.forEach(async (element, index) => {
+        let elementDetailedPageRequest = new requestDataFromUrl(element.url)
+        topImdbScore[index] = await elementDetailedPageRequest.fetch()
     })
 
     topImdbScore.sort((a, b) => a.avg_vote - b.avr_vote)
-
+    console.log(topImdbScore)
     return topImdbScore[0]
+}
+
+/**
+ * @param {array} inputList
+ * @return {array}
+ */
+async function replaceBasicByDetailledFilmInfo(inputList) {
+    inputList.forEach(async (element, index) => {
+        let elementDetailedPageRequest = new requestDataFromUrl(element.url)
+        inputList[index] = await elementDetailedPageRequest.fetch()
+    })
+    return inputList
 }
 
 /**
@@ -473,7 +490,6 @@ function createTable(content) {
     }
     return table
 }
-
 
 /** 
  * fonction pour l'initialisation des carousels
@@ -554,11 +570,14 @@ window.addEventListener("click", function (event) {
 /**
  * Best Movie 
  */
-bestMovieData = getBestToAllMovie()
-let bestMovieElement = document.getElementById("bestMovie")
-bestMovieElement.querySelector(".title").innerHTML = bestMovieData.title
-bestMovieElement.querySelector("img").src = image_url
-bestMovieElement.querySelector(".long_description") = bestMovieData.long_description
+let bestMovieData = getBestToAllMovie().then(response => {
+    let bestMovieElement = document.getElementById("bestMovie")
+    console.log(response)
+    bestMovieElement.querySelector(".title").innerHTML = response.title
+    bestMovieElement.querySelector("img").src = response.image_url
+    bestMovieElement.querySelector(".long_description").innerHTML = response.long_description
+})
+
 
 /**
  * carousel Best Movies
