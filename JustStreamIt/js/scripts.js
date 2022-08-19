@@ -75,7 +75,6 @@ class Carousel {
         close_button.setAttribute("class", "modal_button close_button")
         close_button.onclick = function () { // ferme la fenêtre quand l'utilisateur clique sur la croix rouge
             close_modal("filmSheet")
-            console.log("modal close")
         }
         header.appendChild(title)
         header.appendChild(close_button)
@@ -151,7 +150,6 @@ class Carousel {
      */
 
     createCarouselItem(element) {
-        let self = this
         let title = element.title
         let url_image = element.image_url
         let urlModalContent = element.url
@@ -244,7 +242,7 @@ class Carousel {
 
     /**
      * déplace le carousel vers l'élément ciblé
-     * @Param {number} index
+     * @Param {integer} index
      */
     goToItem(index) {
         if (index < 0) {
@@ -265,10 +263,6 @@ class Carousel {
         this.moveCallBacks.push(cb)
     }
 
-    request(option = {}) {
-        this.request = new requestJsonData(option)
-    }
-
     async getModalContent(url) {
         var modalContent = await fetchUrl(url)
 
@@ -282,18 +276,6 @@ class Carousel {
         }
         return modalContent
     }
-
-    /*addModal(item, url) {
-        item.addEventListener("click", function () {
-            console.log(url)
-            // construction de la modal
-            buildModal(url)
- 
-            // activation de la modal
-            var modal = document.getElementById("filmSheet")
-            modal.classList.toggle("active")
-        })
-    }*/
 }
 
 class requestJsonData {
@@ -371,6 +353,142 @@ class requestDataFromUrl {
     }
 }
 
+class modalConstruct {
+    /**
+     * 
+     * @param {string} url adresse de la page détaillé du film
+     */
+    constructor(url) {
+        this.url = url
+        this.content = []
+    }
+
+    async getContent() {
+        let request = new requestDataFromUrl(this.url)
+        let data = await request.fetch()
+
+        for (const [key, value] of Object.entries(data)) {
+            if (value === null) {
+                data[key] = "unkwown"
+            }
+            if (typeof (value) === "array") {
+                data[key] = data[key].toString()
+            }
+        }
+        return data
+    }
+
+    /**
+     * construction et activation de la modal
+     * @return {list[HTMLElement]} [header, body, footer] 
+     */
+    async build() {
+        let modalContent = await this.getContent()
+        //  blocs de la structures
+        let header = createDivWithClass("modal_header")
+        let body = createDivWithClass("modal_body")
+        let footer = createDivWithClass("modal_footer")
+
+        // titre et bouton fermeture
+        let title = createDivWithClassAndContent("modal_title", modalContent["title"])
+        let close_button = document.createElement("button")
+        close_button.setAttribute("class", "modal_button close_button")
+        close_button.onclick = function () { // ferme la fenêtre quand l'utilisateur clique sur la croix rouge
+            close_modal("filmSheet")
+        }
+        header.appendChild(title)
+        header.appendChild(close_button)
+
+        // image et bouton lecture
+        let picture = document.createElement("img")
+        picture.setAttribute("src", modalContent["image_url"])
+        picture.setAttribute("class", "modal_picture")
+
+        let play_button = document.createElement("button")
+        play_button.setAttribute("class", "modal_button play_button")
+        let play_button_text = document.createElement("div")
+        play_button_text.innerHTML = "Lecture"
+
+        body.appendChild(picture)
+        play_button.appendChild(play_button_text)
+        body.appendChild(play_button)
+
+        // creation des elements pour la table
+        let genre_title = createDivWithClassAndContent("modal_champs title", "Genre : ")
+        let genre_content = createDivWithClassAndContent("modal_champs info", modalContent["genres"].join(", "))
+
+        let date_published_title = createDivWithClassAndContent("modal_champs title", "Date de sortie : ")
+        let date_published_formatted = ""
+        formatDate(modalContent["date_published"]).then(response => {
+            date_published_formatted = response
+        })
+        let date_published_content = createDivWithClassAndContent("modal_champs info", date_published_formatted)
+
+        let avg_score_title = createDivWithClassAndContent("modal_champs title", "Score : ")
+        let avg_score_content = createDivWithClassAndContent("modal_champs info", modalContent["avg_vote"])
+
+        let imdb_score_title = createDivWithClassAndContent("modal_champs title", "Imdb : ")
+        let imdb_score_content = createDivWithClassAndContent("modal_champs info", modalContent["imdb_score"])
+
+        let directors_title = createDivWithClassAndContent("modal_champs title", "Réalisé par : ")
+        let directors_content = createDivWithClassAndContent("modal_champs info", modalContent["directors"].join(", "))
+
+        let actors_title = createDivWithClassAndContent("modal_champs title", "Acteurs : ")
+        let actors_content = createDivWithClassAndContent("modal_champs info", modalContent["actors"].join(", "))
+
+        let duration_title = createDivWithClassAndContent("modal_champs title", "Durée : ")
+        let duration_content = createDivWithClassAndContent("modal_champs info", modalContent["duration"] + " min")
+
+        let countries_title = createDivWithClassAndContent("modal_champs title", "Origine : ")
+        let countries_content = createDivWithClassAndContent("modal_champs info", modalContent["countries"].join(", "))
+
+        let box_office_result_title = createDivWithClassAndContent("modal_champs title", "Résultats au Box Office : ")
+        let box_office_result_content = createDivWithClassAndContent("modal_champs info", modalContent["worldwide_gross_income"])
+
+        // ajout des elements à la table
+        let table_content = [
+            [genre_title, genre_content],
+            [date_published_title, date_published_content],
+            [avg_score_title, avg_score_content],
+            [imdb_score_title, imdb_score_content],
+            [directors_title, directors_content],
+            [actors_title, actors_content],
+            [duration_title, duration_content],
+            [countries_title, countries_content],
+            [box_office_result_title, box_office_result_content]
+        ]
+        let table = createTable(table_content)
+        body.appendChild(table)
+
+        // description du film
+        let long_description = createDivWithClassAndContent("modal_champs info", modalContent["long_description"])
+        body.appendChild(long_description)
+        this.content = [header, body, footer]
+        return this.content
+    }
+
+    /**
+     * 
+     * @param {HTMLElement} img image pour ajouter la modale
+     */
+    async attachTo(img) {
+        let content = await this.build()
+
+        img.addEventListener("click", () => {
+            // contruction de la modal
+            let modal = document.getElementById("filmSheet")
+            let modal_container = modal.querySelector(".modal_container")
+            for (let j = 0; j < 3; j++) {
+                modal_container.appendChild(content[j])
+            }
+
+            // activation de la modal
+            modal.classList.toggle("active")
+        }, false)
+        return img
+    }
+}
+
 /**
  * revoie une liste contenant l'ensemble des films ayant le meilleur score imdb dans la categorie specifie
  * @Param {string} genre selection des film avec le meilleur score selon imdb filtre par genres
@@ -434,23 +552,16 @@ async function getBestToAllMovie(genre = "") {
     let topImdbScore = getTopImdbScore(genre)
 
     let truc = topImdbScore.then((response) => {
-        console.log("get best movie")
 
         var test = []
         response.forEach((element, index) => {
-            console.log(index)
-            console.log(element)
+
             let elementDetailedPageRequest = new requestDataFromUrl(element["url"])
-            console.log("boucle forEach")
             elementDetailedPageRequest.fetch().then(info => {
-                console.log("test loop")
-                console.log(test)
                 test[index] = info
             })
         })
-        console.log("sortie get best movie")
         test.sort((a, b) => a["avg_vote"] - b["avg_vote"])
-        console.log(test)
     })
     return truc[0]
 }
@@ -579,29 +690,34 @@ var modal = document.getElementById("filmSheet");
 window.addEventListener("click", function (event) {
     if (event.target == modal) {
         close_modal("filmSheet")
-        //modal.classList.toggle("active")
-        console.log("modal close")
     }
 })
 
 /**
  * Best Movie 
  */
-getBestToAllMovie().then((bestMovie) => {
-    console.log("best movie")
-    console.log(bestMovie)
-    let bestMovieRequest = new requestDataFromUrl(bestMovie.url)
-    let bestMovieData = bestMovieRequest.fetch()
-    console.log(bestMovieData)
-    bestMovieData.then((response) => {
-        let bestMovieElement = document.getElementById("bestMovie")
-        console.log(response)
-        bestMovieElement.querySelector(".title").innerHTML = response.title
-        bestMovieElement.querySelector("img").src = response.image_url
-        bestMovieElement.querySelector(".long_description").innerHTML = response.long_description
+/*getBestToAllMovie()*/
+let bestMovieElement = document.getElementById("bestMovie")
+let bestMovieTitle = bestMovieElement.querySelector(".title")
+let bestMovieImg = bestMovieElement.querySelector("img")
+let bestMovieDescrp = bestMovieElement.querySelector(".long_description")
+
+getTopImdbScore().then((bestMovie) => {
+    let request = new requestDataFromUrl(bestMovie[0].url)
+    let data = request.fetch()
+
+    let bestMovieModal = new modalConstruct(bestMovie[0].url)
+
+    data.then((response) => {
+        bestMovieTitle.innerHTML = response.title
+        bestMovieImg.src = response.image_url
+        bestMovieDescrp.innerHTML = response.long_description
+
+        bestMovieModal.attachTo(bestMovieImg).then(response => {
+            bestMovieImg = response
+        })
     })
 })
-
 
 
 /**
