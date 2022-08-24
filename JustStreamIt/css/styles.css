@@ -1,10 +1,24 @@
+/*
+CSS Reset
+*/
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+
 /* 
 Main page 
 */
 
 html {
-    font-size: 20px;
+    font: 20px "Ultra", sans-serif;
     background-color: white;
+    font-style: black;
 }
 
 main {
@@ -85,10 +99,10 @@ top rated movie
 */
 
 #bestMovie {
-    border: 1px red solid;
+    border: 1px black none;
     margin: auto;
-    max-width: 1000px;
-    max-height: 400px;
+    max-width: 80%;
+    max-height: 20%;
     position: relative;
 
     display: grid;
@@ -96,13 +110,12 @@ top rated movie
     grid-template-rows: repeat(3, auto);
     align-items: center;
     justify-items: center;
+
 }
 
 #bestMovie>.title {
     grid-column: 1/4;
     grid-row: 1;
-    background: red;
-    align-self: start;
     justify-self: left;
     padding-bottom: -10px;
 }
@@ -111,7 +124,9 @@ top rated movie
     grid-column: 1;
     grid-row: 2/4;
     padding: 0.2em;
+    border-left: 5px;
     background: blue;
+    /*align-self: start;*/
 }
 
 #bestMovie>.play {
@@ -125,7 +140,6 @@ top rated movie
     padding: 0.2em;
     grid-column: 2/4;
     grid-row: 3;
-    background: purple;
     align-self: last baseline;
 }
 

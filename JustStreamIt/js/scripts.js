@@ -58,92 +58,6 @@ class Carousel {
     }
 
     /**
-     * construction et activation de la modal
-     * @param {url} url adresse de la page détaillé du film
-     */
-    async buildModal(url) {
-        var modalContent = await this.getModalContent(url)
-
-        //  blocs de la structures
-        let header = createDivWithClass("modal_header")
-        let body = createDivWithClass("modal_body")
-        let footer = createDivWithClass("modal_footer")
-
-        // titre et bouton fermeture
-        let title = createDivWithClassAndContent("modal_title", modalContent["title"])
-        let close_button = document.createElement("button")
-        close_button.setAttribute("class", "modal_button close_button")
-        close_button.onclick = function () { // ferme la fenêtre quand l'utilisateur clique sur la croix rouge
-            close_modal("filmSheet")
-        }
-        header.appendChild(title)
-        header.appendChild(close_button)
-
-        // image et bouton lecture
-        let picture = document.createElement("img")
-        picture.setAttribute("src", modalContent["image_url"])
-        picture.setAttribute("class", "modal_picture")
-
-        let play_button = document.createElement("button")
-        play_button.setAttribute("class", "modal_button play_button")
-        let play_button_text = document.createElement("div")
-        play_button_text.innerHTML = "Lecture"
-
-        body.appendChild(picture)
-        play_button.appendChild(play_button_text)
-        body.appendChild(play_button)
-
-        // creation des elements pour la table
-        let genre_title = createDivWithClassAndContent("modal_champs title", "Genre : ")
-        let genre_content = createDivWithClassAndContent("modal_champs info", modalContent["genres"].join(", "))
-
-        let date_published_title = createDivWithClassAndContent("modal_champs title", "Date de sortie : ")
-        let date_published_formatted = await formatDate(modalContent["date_published"])
-        let date_published_content = createDivWithClassAndContent("modal_champs info", date_published_formatted)
-
-        let avg_score_title = createDivWithClassAndContent("modal_champs title", "Score : ")
-        let avg_score_content = createDivWithClassAndContent("modal_champs info", modalContent["avg_vote"])
-
-        let imdb_score_title = createDivWithClassAndContent("modal_champs title", "Imdb : ")
-        let imdb_score_content = createDivWithClassAndContent("modal_champs info", modalContent["imdb_score"])
-
-        let directors_title = createDivWithClassAndContent("modal_champs title", "Réalisé par : ")
-        let directors_content = createDivWithClassAndContent("modal_champs info", modalContent["directors"].join(", "))
-
-        let actors_title = createDivWithClassAndContent("modal_champs title", "Acteurs : ")
-        let actors_content = createDivWithClassAndContent("modal_champs info", modalContent["actors"].join(", "))
-
-        let duration_title = createDivWithClassAndContent("modal_champs title", "Durée : ")
-        let duration_content = createDivWithClassAndContent("modal_champs info", modalContent["duration"] + " min")
-
-        let countries_title = createDivWithClassAndContent("modal_champs title", "Origine : ")
-        let countries_content = createDivWithClassAndContent("modal_champs info", modalContent["countries"].join(", "))
-
-        let box_office_result_title = createDivWithClassAndContent("modal_champs title", "Résultats au Box Office : ")
-        let box_office_result_content = createDivWithClassAndContent("modal_champs info", modalContent["worldwide_gross_income"])
-
-        // ajout des elements à la table
-        let table_content = [
-            [genre_title, genre_content],
-            [date_published_title, date_published_content],
-            [avg_score_title, avg_score_content],
-            [imdb_score_title, imdb_score_content],
-            [directors_title, directors_content],
-            [actors_title, actors_content],
-            [duration_title, duration_content],
-            [countries_title, countries_content],
-            [box_office_result_title, box_office_result_content]
-        ]
-        let table = createTable(table_content)
-        body.appendChild(table)
-
-        // description du film
-        let long_description = createDivWithClassAndContent("modal_champs info", modalContent["long_description"])
-        body.appendChild(long_description)
-        return [header, body, footer]
-    }
-
-    /**
      * @param {string} title
      * @param {string} url_image url pour la mignature de image
      * @returns {HTMLElement}
@@ -171,22 +85,10 @@ class Carousel {
         // ajout de la fenêtre modal et ajout de l'image
         img.setAttribute('src', url_image)
 
-        this.buildModal(urlModalContent).then(response => {
-            var modal_construct = response
-
-            img.addEventListener("click", () => {
-                // contruction de la modal
-                let modal = document.getElementById("filmSheet")
-                let modal_container = modal.querySelector(".modal_container")
-                for (let j = 0; j < 3; j++) {
-                    modal_container.appendChild(modal_construct[j])
-                }
-
-                // activation de la modal
-                modal.classList.toggle("active")
-            }, false)
+        let movieModal = new modalConstruct(urlModalContent)
+        movieModal.attachTo(img).then(response => {
+            img = response
         })
-
         return container
     }
 
@@ -262,20 +164,6 @@ class Carousel {
     onMove(cb) {
         this.moveCallBacks.push(cb)
     }
-
-    async getModalContent(url) {
-        var modalContent = await fetchUrl(url)
-
-        for (const [key, value] of Object.entries(modalContent)) {
-            if (value === null) {
-                modalContent[key] = "unkwown"
-            }
-            if (typeof (value) === "array") {
-                modalContent[key] = modalContent[key].toString()
-            }
-        }
-        return modalContent
-    }
 }
 
 class requestJsonData {
@@ -329,11 +217,13 @@ class requestJsonData {
     }
 
     async fetchData(nb_results = 5) {
-        let tmpData = await fetchUrl(this.rootApi + this.filterString)
-        let data = tmpData
-        let maxItem = tmpData.count
+        let request = new requestDataFromUrl(this.rootApi + this.filterString)
+        let data = await request.fetch()
+        let maxItem = data.count
+
         while ((data.results.length < nb_results) && (data.results.length < maxItem)) {
-            tmpData = await fetchUrl(tmpData.next)
+            let tmpRequest = new requestDataFromUrl(data.next)
+            let tmpData = await tmpRequest.fetch()
             data.next = tmpData.next
             tmpData.results.forEach(value => data.results.push(value))
         }
@@ -352,6 +242,7 @@ class requestDataFromUrl {
         return data
     }
 }
+
 
 class modalConstruct {
     /**
@@ -489,6 +380,7 @@ class modalConstruct {
     }
 }
 
+
 /**
  * revoie une liste contenant l'ensemble des films ayant le meilleur score imdb dans la categorie specifie
  * @Param {string} genre selection des film avec le meilleur score selon imdb filtre par genres
@@ -522,7 +414,8 @@ async function getTopImdbScore(genre = "") {
             delete data[i]
         }
     }
-
+    console.log("output getTopImdbScore")
+    console.log(data)
     return data
 }
 
@@ -564,19 +457,6 @@ async function getBestToAllMovie(genre = "") {
         test.sort((a, b) => a["avg_vote"] - b["avg_vote"])
     })
     return truc[0]
-}
-
-
-/**
- * @param {array} inputList
- * @return {array}
- */
-async function replaceBasicByDetailledFilmInfo(inputList) {
-    inputList.forEach(async (element, index) => {
-        let elementDetailedPageRequest = new requestDataFromUrl(element.url)
-        inputList[index] = await elementDetailedPageRequest.fetch()
-    })
-    return inputList
 }
 
 /**
@@ -635,25 +515,6 @@ function initCarousel(element, data) {
     return carousel
 }
 
-/**
- * importe des données de test depuis moch_data
- * @returns 
- */
-async function fetchMochData() {
-    let response = await fetch("./mock_data.json")
-    let data = await response.json()
-    return data
-}
-
-/**
- * @param {URL} url adresse de la requete
- * @return {data}
- */
-async function fetchUrl(url) {
-    let response = await fetch(url)
-    let data = await response.json()
-    return data
-}
 
 function close_modal(id_modal) {
     var modal = document.getElementById(id_modal)
@@ -665,6 +526,7 @@ function close_modal(id_modal) {
     // passe la fenêtre en masqué
     modal.classList.toggle("active")
 }
+
 /**
  * 
  * @param {string} str_date date au format YYYY-MM-DD
@@ -703,16 +565,18 @@ let bestMovieImg = bestMovieElement.querySelector("img")
 let bestMovieDescrp = bestMovieElement.querySelector(".long_description")
 
 getTopImdbScore().then((bestMovie) => {
+    console.log("best movie")
+    console.log(bestMovie)
     let request = new requestDataFromUrl(bestMovie[0].url)
     let data = request.fetch()
 
     let bestMovieModal = new modalConstruct(bestMovie[0].url)
-
+    console.log(data)
     data.then((response) => {
         bestMovieTitle.innerHTML = response.title
         bestMovieImg.src = response.image_url
         bestMovieDescrp.innerHTML = response.long_description
-
+        console.log(response)
         bestMovieModal.attachTo(bestMovieImg).then(response => {
             bestMovieImg = response
         })
