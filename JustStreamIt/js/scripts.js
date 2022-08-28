@@ -259,10 +259,10 @@ class modalConstruct {
         let data = await request.fetch()
 
         for (const [key, value] of Object.entries(data)) {
-            if (value === null) {
-                data[key] = "unkwown"
+            if (!value) {
+                data[key] = "unknown"
             }
-            if (typeof (value) === "array") {
+            if (typeof value === 'array') {
                 data[key] = data[key].toString()
             }
         }
@@ -309,10 +309,7 @@ class modalConstruct {
         let genre_content = createDivWithClassAndContent("modal_champs info", modalContent["genres"].join(", "))
 
         let date_published_title = createDivWithClassAndContent("modal_champs title", "Date de sortie : ")
-        let date_published_formatted = ""
-        formatDate(modalContent["date_published"]).then(response => {
-            date_published_formatted = response
-        })
+        let date_published_formatted = await formatDate(modalContent["date_published"]).then(response => response)
         let date_published_content = createDivWithClassAndContent("modal_champs info", date_published_formatted)
 
         let avg_score_title = createDivWithClassAndContent("modal_champs title", "Score : ")
@@ -334,7 +331,8 @@ class modalConstruct {
         let countries_content = createDivWithClassAndContent("modal_champs info", modalContent["countries"].join(", "))
 
         let box_office_result_title = createDivWithClassAndContent("modal_champs title", "Résultats au Box Office : ")
-        let box_office_result_content = createDivWithClassAndContent("modal_champs info", modalContent["worldwide_gross_income"])
+        let box_office_result_formated = await formatBoxOfficeResult(modalContent["worldwide_gross_income"]).then(response => response)
+        let box_office_result_content = createDivWithClassAndContent("modal_champs info", box_office_result_formated)
 
         // ajout des elements à la table
         let table_content = [
@@ -349,10 +347,11 @@ class modalConstruct {
             [box_office_result_title, box_office_result_content]
         ]
         let table = createTable(table_content)
+        table.setAttribute("class", "modal_table")
         body.appendChild(table)
 
         // description du film
-        let long_description = createDivWithClassAndContent("modal_champs info", modalContent["long_description"])
+        let long_description = createDivWithClassAndContent("modal_champs description", modalContent["long_description"])
         body.appendChild(long_description)
         this.content = [header, body, footer]
         return this.content
@@ -375,6 +374,7 @@ class modalConstruct {
 
             // activation de la modal
             modal.classList.toggle("active")
+            /*modal.classList.toggle("out")*/
         }, false)
         return img
     }
@@ -414,8 +414,6 @@ async function getTopImdbScore(genre = "") {
             delete data[i]
         }
     }
-    console.log("output getTopImdbScore")
-    console.log(data)
     return data
 }
 
@@ -525,6 +523,7 @@ function close_modal(id_modal) {
     }
     // passe la fenêtre en masqué
     modal.classList.toggle("active")
+    /*modal.classList.toggle("out")*/
 }
 
 /**
@@ -543,6 +542,33 @@ async function formatDate(input_date) {
     const str_year = d.getFullYear()
     const output_date = `${str_date}/${str_month}/${str_year}`
     return output_date
+}
+
+/**
+ * 
+ * @param {string} str_box_office_result resultat du box office valeur en dollar ou unknown
+ * @return {string} renvoie la valeur formaté ou unknown
+ */
+async function formatBoxOfficeResult(str_box_office_result) {
+    str_box_office_result = String(str_box_office_result)
+    if (str_box_office_result === "unknown" || !str_box_office_result) {
+        return str_box_office_result
+    }
+    let test = new Number(str_box_office_result)
+    if (!isNaN(test)) {
+        let output = ""
+        let index = str_box_office_result.length
+        while (index >= 3) {
+            output = str_box_office_result.slice(index - 3, index) + " " + output
+            index -= 3
+            if (index > 0 & index < 3) {
+                output = str_box_office_result.slice(0, index) + " " + output
+            }
+        }
+        output = "$ " + output
+        return output
+    }
+
 }
 
 // récupération de la fenêtre modal
@@ -565,18 +591,14 @@ let bestMovieImg = bestMovieElement.querySelector("img")
 let bestMovieDescrp = bestMovieElement.querySelector(".long_description")
 
 getTopImdbScore().then((bestMovie) => {
-    console.log("best movie")
-    console.log(bestMovie)
     let request = new requestDataFromUrl(bestMovie[0].url)
     let data = request.fetch()
 
     let bestMovieModal = new modalConstruct(bestMovie[0].url)
-    console.log(data)
     data.then((response) => {
         bestMovieTitle.innerHTML = response.title
         bestMovieImg.src = response.image_url
         bestMovieDescrp.innerHTML = response.long_description
-        console.log(response)
         bestMovieModal.attachTo(bestMovieImg).then(response => {
             bestMovieImg = response
         })
@@ -600,23 +622,14 @@ requestCarouselBestMovies.fetchData(10).then((response) => {
  * 1st carousel
  */
 let requestCarousel_1 = new requestJsonData({
-    genre: "comedy"
+    genre: "Action"
 })
 requestCarousel_1.orderBy("imdb_score", true)
 
 requestCarousel_1.fetchData(10).then((responseCar_1) => {
     let carouselElement_1 = document.querySelector("#carousel_cat_1")
     initCarousel(carouselElement_1, responseCar_1.results)
-    carouselElement_1.querySelector(".categorie__title").innerHTML = "Comedy"
-    /*if (document.readyState !== 'loading') {
-        initCarousel(carouselElement_1, responseCar_1.results)
-    } else {
-        document.addEventListener("DOMContentLoaded", function (event) {
-            initCarousel(carouselElement_1, responseCar_1.results)
-            event.stopPropagation()
-        })
-    }
-    */
+    carouselElement_1.querySelector(".categorie__title").innerHTML = "Action"
 })
 
 /**
