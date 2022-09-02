@@ -212,12 +212,6 @@ play button
     transform: translateY(4px);
 }
 
-.play_button>img {
-    display: inline-block;
-    vertical-align: middle;
-    align-self: left;
-}
-
 /* 
 Best movie
 */
